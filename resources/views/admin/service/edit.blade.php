@@ -1,0 +1,72 @@
+@extends('admin.layout.app')
+@section('main')
+    <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-50 p-6 md:p-8">
+        <div class="w-full max-w-2xl mx-auto">
+            <div class="flex items-center mb-6">
+                <h2 class="text-2xl font-bold text-gray-900 ml-4">ایجاد سرویس جدید</h2>
+            </div>
+            <div class="bg-white rounded-xl shadow-lg p-6 md:p-8">
+                <form action="{{ route('admin.service.update',$service) }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    @method('PATCH')
+                    @if ($errors->any())
+                        <div class="bg-red-100 border-r-4 border-red-500 text-red-700 p-4 mb-6" role="alert">
+                            <div class="flex items-center">
+                                <i class="fas fa-exclamation-triangle ml-2"></i>
+                                <span class="font-bold">خطا:</span>
+                            </div>
+                            <ul class="mt-2 list-disc list-inside">
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+                    <div class="mb-6">
+                        <label for="title" class="block text-gray-700 text-sm font-semibold mb-2">عنوان سرویس</label>
+                        <input type="text" id="title" name="title" value="{{ $service->title }}"
+                               class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2
+                               focus:ring-blue-500 transition-colors duration-200"
+                               placeholder="عنوان سرویس را وارد کنید" required>
+                    </div>
+                    <div class="mb-6">
+                        <label for="summary" class="block text-gray-700 text-sm font-semibold mb-2">خلاصه سرویس</label>
+                        <textarea id="summary" name="summary" rows="4"
+                                  class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2
+                                  focus-ring-blue-500 transition-colors duration-200"
+                                  placeholder="خلاصه کوتاهی از سرویس بنویسید" required>{{ old('summary') ?? $service->summary  }}</textarea>
+                    </div>
+                    <div class="mb-6">
+                        <label for="content" class="block text-gray-700 text-sm font-semibold mb-2">محتوای کامل</label>
+                        <textarea id="content" name="description" rows="10"
+                                  class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2
+                                  focus:ring-blue-500 transition-colors duration-200"
+                                  placeholder="محتوای اصلی سرویس را وارد کنید" required>{{ $service->description }}</textarea>
+                    </div>
+                    <div class="mb-6">
+                        <label for="image" class="block text-gray-700 text-sm font-semibold mb-2">تصویر سرویس</label>
+                        <div class="flex items-center">
+                            <label class="cursor-pointer bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg
+                            font-semibold transition-colors duration-200">
+                                <span>انتخاب فایل</span>
+                                <input type="file" id="image" name="image" class="hidden">
+                            </label>
+                            <img src="{{asset($service->image)}}" alt=""  class="mr-4 w-30 h-20 object-cover rounded-md shadow">
+    {{--                        <span id="file-name" class="mr-4 text-gray-500">فایلی انتخاب نشده است</span>--}}
+                        </div>
+                    </div>
+                    <div class="flex justify-between space-x-4 space-x-reverse">
+                        <button type="submit" class="bg-green-600 hover:bg-green-700 text-white font-semibold py-3
+                        px-8 rounded-full shadow-lg transition-colors duration-200">
+                            <i class="fas fa-save ml-2"></i> ذخیره سرویس
+                        </button>
+                        <a href="{{ route('admin.service.index') }}" class="bg-gray-400 hover:bg-gray-500 text-white
+                        font-semibold py-3 px-8 rounded-full transition-colors duration-200">
+                            <i class="fas fa-arrow-right ml-2"></i> انصراف
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+@endsection
