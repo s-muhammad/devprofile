@@ -16,8 +16,7 @@ class Page extends Model
     public function extraData()
     {
         return match ($this->slug) {
-
-            'home' => [
+            'home' =>[
                 'services' => Service::latest()->take(3)->get(),
                 'blogs' => Blog::latest()->take(3)->get(),
                 'banners' => $this->banner()->get(),

@@ -1,48 +1,8 @@
 @extends('layout.app')
 @section('main')
-<header x-data="{ open: false }" class="relative z-20 flex flex-wrap items-center py-4 px-4 lg:px-16 border-b border-gray-100 bg-white shadow-md">
-    <div class="flex-1 flex items-center justify-between">
-        <a href="#" class="text-3xl font-extrabold text-gray-900 tracking-widest uppercase">
-            LUXE<span class="text-yellow-500">.</span>
-        </a>
-
-        <button @click="open = !open" class="md:hidden text-gray-900 focus:outline-none">
-            <svg x-show="!open" xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
-            </svg>
-            <svg x-show="open" xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-            </svg>
-        </button>
+    <div class="bg-black/80">
+        @include('layout.menu')
     </div>
-
-    <nav class="hidden md:flex space-x-8 text-gray-700 font-medium tracking-widest">
-        <a href="#" class="hover:text-yellow-500 transition duration-200">Home</a>
-        <a href="#" class="hover:text-yellow-500 transition duration-200">Services</a>
-        <a href="#" class="hover:text-yellow-500 transition duration-200">About Us</a>
-        <a href="#" class="hover:text-yellow-500 transition duration-200">Contact</a>
-    </nav>
-
-    <div
-        x-show="open"
-        x-transition:enter="transition ease-out duration-300"
-        x-transition:enter-start="opacity-0 scale-90"
-        x-transition:enter-end="opacity-100 scale-100"
-        x-transition:leave="transition ease-in duration-300"
-        x-transition:leave-start="opacity-100 scale-100"
-        x-transition:leave-end="opacity-0 scale-90"
-        @click.away="open = false"
-        class="absolute top-full left-0 w-full bg-white/95 md:hidden z-40 shadow-lg"
-    >
-        <ul class="flex flex-col text-gray-700 font-medium tracking-widest">
-            <li><a class="py-4 px-6 block border-b border-gray-100 hover:bg-gray-50" href="#">Home</a></li>
-            <li><a class="py-4 px-6 block border-b border-gray-100 hover:bg-gray-50" href="#">Services</a></li>
-            <li><a class="py-4 px-6 block border-b border-gray-100 hover:bg-gray-50" href="#">About Us</a></li>
-            <li><a class="py-4 px-6 block hover:bg-gray-50" href="#">Contact</a></li>
-        </ul>
-    </div>
-</header>
-
 <section class="py-24 bg-stone-50">
     <div class="max-w-screen-xl mx-auto px-8">
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">

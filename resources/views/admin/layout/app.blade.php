@@ -26,8 +26,7 @@
                     <i class="fas fa-bars text-xl"></i>
                 </button>
                 <div class="text-2xl font-extrabold text-gray-900">
-                    @php $page = \App\Models\Page::where('view','index')->first() @endphp
-                    <a href="{{ route('page.show', ['slug' => $page['slug']]) }}" target="_blank" class="text-gray-600 hover:text-blue-600">مشاهده سایت</a>
+                    <a href="{{ url('/') }}" target="_blank" class="text-gray-600 hover:text-blue-600">مشاهده سایت</a>
                 </div>
             </div>
 

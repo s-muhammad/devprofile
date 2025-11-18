@@ -39,8 +39,9 @@ Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 Route::get('register', [RegisterController::class, 'registrationForm'])->name('register');
 Route::post('register', [RegisterController::class, 'register'])->name('register.post');
 
-Route::get('{slug}', function ($slug) {
-    $page = Page::where('slug', $slug)->firstOrFail();
+Route::get('{slug?}', function ($slug = null) {
+    $targetSlug = $slug ?? 'home';
+    $page = Page::where('slug', $targetSlug)->firstOrFail();
     return view($page->view, [
         'page' => $page,
         ...$page->extraData()

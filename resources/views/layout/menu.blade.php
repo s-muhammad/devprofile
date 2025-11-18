@@ -1,6 +1,6 @@
 <header x-data="{ open: false }" class="relative z-20 flex flex-wrap items-center py-4 px-4 lg:px-16 border-b border-white/10">
     <div class="flex-1 flex items-center justify-between">
-        <a href="{{route('page.show',$page->slug)}}" class="text-3xl font-extrabold text-white tracking-widest uppercase">
+        <a href="{{url('/')}}" class="text-3xl font-extrabold text-white tracking-widest uppercase">
             {{setting('site_title')}}<span class="text-yellow-500">.</span>
         </a>
         <button @click="open = !open" class="md:hidden text-white focus:outline-none">

@@ -44,7 +44,6 @@
     @vite(['resources/css/app.css','resources/js/app.js'])
 </head>
 <body class="font-serif">
-
     @yield('main')
 <footer class="flex flex-col space-y-10 justify-center m-10 bg-white pt-10">
 

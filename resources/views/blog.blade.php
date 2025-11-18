@@ -1,6 +1,6 @@
 @extends('layout.app')
 @section('main')
-<div class="bg-black">
+<div class="bg-black/80">
     @include('layout.menu')
 </div>
 
