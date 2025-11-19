@@ -80,27 +80,20 @@
 </footer>
 <script>
     var swiper = new Swiper(".mySwiper", {
-        // تنظیمات اصلی
-        slidesPerView: 1, // در حالت موبایل فقط ۱ کارت
-        spaceBetween: 24, // فاصله بین کارت‌ها (معادل gap-6)
-
+        slidesPerView: 1,
+        spaceBetween: 30,
+        loop: true,
         pagination: {
             el: ".swiper-pagination",
             clickable: true,
         },
-
-        // تنظیمات ریسپانسیو (برای دسکتاپ)
         breakpoints: {
-            640: { // sm
-                slidesPerView: 2,
-                spaceBetween: 30,
-            },
-            1024: { // lg
-                slidesPerView: 3, // در دسکتاپ ۳ کارت
-                spaceBetween: 30,
-            }
+            640: { slidesPerView: 1 },
+            768: { slidesPerView: 2 },
+            1024: { slidesPerView: 3 }
         }
     });
+
 </script>
 <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>

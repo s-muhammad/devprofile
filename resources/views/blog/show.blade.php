@@ -71,7 +71,9 @@
                         <li class="flex items-start gap-4 hover:bg-stone-50 p-2 -m-2 rounded-lg transition duration-200">
                             <img src="{{ asset($blog->image) }}" alt="Related Post" class="w-16 h-16 object-cover rounded-md flex-shrink-0 border border-gray-100">
                             <div>
+                                <a href="{{route('blog.single',$blog->id)}}">
                                 <h4 class="text-sm font-semibold text-gray-900 leading-snug hover:text-yellow-600">{{$blog->title}}</h4>
+                                </a>
                                 <p class="text-xs text-gray-500 mt-1">{{ $blog->created_at->diffForHumans() }}</p>
                             </div>
                         </li>
