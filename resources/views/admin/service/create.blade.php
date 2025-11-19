@@ -28,18 +28,12 @@
                                focus:ring-blue-500 transition-colors duration-200"
                                placeholder="عنوان سرویس را وارد کنید" required>
                     </div>
-{{--                    <div class="mb-6">--}}
-{{--                        <label for="summary" class="block text-gray-700 text-sm font-semibold mb-2">خلاصه سرویس</label>--}}
-{{--                        <textarea id="editor" name="summary" rows="4"--}}
-{{--                                  class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2--}}
-{{--                                  focus-ring-blue-500 transition-colors duration-200"--}}
-{{--                                  placeholder="خلاصه کوتاهی از سرویس بنویسید" required></textarea>--}}
-{{--                    </div>--}}
                     <div class="mb-6">
                         <label for="summary" class="block text-gray-700 text-sm font-semibold mb-2">خلاصه سرویس</label>
-                        <div id="editor">
-                            <p>{{ old('summary') }}</p>
-                        </div>
+                        <textarea id="editor" name="summary" rows="4"
+                                  class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2
+                                  focus-ring-blue-500 transition-colors duration-200"
+                                  placeholder="خلاصه کوتاهی از سرویس بنویسید" required></textarea>
                     </div>
                     <div class="mb-6">
                         <label for="content" class="block text-gray-700 text-sm font-semibold mb-2">محتوای کامل</label>
