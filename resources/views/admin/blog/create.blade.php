@@ -40,7 +40,7 @@
                         <textarea id="mytextarea" name="description" rows="10"
                                   class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2
                                   focus:ring-blue-500 transition-colors duration-200"
-                                  placeholder="محتوای اصلی مقاله را وارد کنید" required>{{ old('description') }}</textarea>
+                                  placeholder="محتوای اصلی مقاله را وارد کنید" >{{ old('description') }}</textarea>
                     </div>
                     <div class="mb-6">
                         <label for="image" class="block text-gray-700 text-sm font-semibold mb-2">تصویر مقاله</label>
