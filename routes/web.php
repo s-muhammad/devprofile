@@ -11,24 +11,7 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Models\Blog;
 use App\Models\Page;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\DB;
 
-Route::get('/test-db', function () {
-    try {
-        DB::connection()->getPdo();
-        $dbName = DB::connection()->getDatabaseName();
-        $tableCount = DB::select('SHOW TABLES');
-
-        return [
-            'status' => 'Connected Successfully!',
-            'database_name' => $dbName,
-            'tables_found' => count($tableCount),
-            'tables_list' => array_map(fn($t) => array_values((array)$t)[0], $tableCount)
-        ];
-    } catch (\Exception $e) {
-        return 'Connection Failed: ' . $e->getMessage();
-    }
-});
 Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
     Route::get('/',function(){
         $blogs = \App\Models\Blog::latest()->take(3)->get();
