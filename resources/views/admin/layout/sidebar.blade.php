@@ -16,13 +16,12 @@
     <nav class="space-y-2.5">
         @php
             $links = [
-                'admin.index' => ['label' => 'داشبورد', 'icon' => 'fas fa-chart-line'],
+                'admin.' => ['label' => 'داشبورد', 'icon' => 'fas fa-chart-line'],
                 'admin.user.index' => ['label' => 'کاربران', 'icon' => 'fas fa-users'],
-                'admin.page.index' => ['label' => 'صفحات', 'icon' => 'fas fa-file-alt'],
+                'admin.comments.index' => ['label' => 'نظرات', 'icon' => 'fas fa-file-alt'],
                 'admin.blog.index' => ['label' => 'مقالات', 'icon' => 'fas fa-newspaper'],
-                'admin.service.index' => ['label' => 'خدمات', 'icon' => 'fas fa-handshake'],
-                'admin.banner.index' => ['label' => 'بنرها', 'icon' => 'fas fa-image'],
-                'admin.setting.index' => ['label' => 'تنظیمات', 'icon' => 'fas fa-cog'],
+                'admin.projects.index' => ['label' => 'پروژه ها', 'icon' => 'fas fa-handshake'],
+                'admin.settings.index' => ['label' => 'تنظیمات', 'icon' => 'fas fa-cog'],
             ];
         @endphp
         @foreach($links as $route => $data)

@@ -73,9 +73,9 @@
     </div>
 </div>
 
-<form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-    @csrf
-</form>
+{{--<form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">--}}
+{{--    @csrf--}}
+{{--</form>--}}
 
 <script>
     const sidebar = document.getElementById('sidebar');

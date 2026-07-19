@@ -101,7 +101,7 @@ class BlogController extends Controller
 
     function uploader($file)
     {
-        $path = 'uploads/blogs/';
+        $path = 'uploads/blog/';
         $filename = time() . '.' . $file->getClientOriginalExtension();
         $file->move($path, $filename);
         return $path . $filename;

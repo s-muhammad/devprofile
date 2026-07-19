@@ -16,7 +16,9 @@
                 <i class="fas fa-newspaper text-purple-600 ml-3"></i>
                 لیست مقالات
             </h2>
-            <a href="{{ route('admin.blog.create') }}" class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-8 rounded-xl shadow-lg shadow-purple-500/50 transition duration-300 transform hover:scale-[1.02] flex items-center gap-2">
+            <a href="{{ route('admin.blog.create') }}"
+               class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-8 rounded-xl shadow-lg
+               shadow-purple-500/50 transition duration-300 transform hover:scale-[1.02] flex items-center gap-2">
                 <i class="fas fa-plus"></i>
                 ایجاد بلاگ جدید
             </a>
@@ -29,7 +31,7 @@
                 <tr class="bg-gray-100 text-gray-600 text-sm uppercase font-semibold tracking-wider">
                     <th class="py-4 px-4 rounded-r-xl">#</th>
                     <th class="py-4 px-4">عنوان</th>
-                    <th class="py-4 px-4">خلاصه</th>
+{{--                    <th class="py-4 px-4">خلاصه</th>--}}
                     <th class="py-4 px-4 text-center">تصویر</th>
                     <th class="py-4 px-4">تاریخ ایجاد</th>
                     <th class="py-4 px-4 rounded-l-xl text-center">عملیات</th>
@@ -40,7 +42,7 @@
                     <tr class="hover:bg-purple-50/50 transition-colors duration-200">
                         <td class="py-4 px-4 text-gray-500">{{ $loop->iteration }}</td>
                         <td class="py-4 px-4 font-semibold text-gray-800 max-w-xs truncate">{{ $blog->title }}</td>
-                        <td class="py-4 px-4 text-gray-600 max-w-sm text-sm">{{ Str::limit($blog->summary, 50) }}</td>
+{{--                        <td class="py-4 px-4 text-gray-600 max-w-sm text-sm">{{ Str::limit($blog->summary, 50) }}</td>--}}
                         <td class="py-4 px-4 text-center">
                             @if($blog->image)
                                 <img src="{{ asset($blog->image) }}" alt="{{ $blog->title }}" class="w-20 h-12 object-cover rounded-lg shadow-md mx-auto">
@@ -52,15 +54,16 @@
                         <td class="py-4 px-4 text-gray-500 text-sm">{{ $blog->created_at->diffForHumans() }}</td>
                         <td class="py-4 px-4 text-center">
                             <div class="flex items-center justify-center space-x-3 space-x-reverse">
-                                {{-- دکمه ویرایش --}}
-                                <a href="{{ route('admin.blog.edit', $blog) }}" title="ویرایش" class="text-blue-600 hover:text-blue-800 p-2 rounded-full hover:bg-blue-100 transition duration-200">
+                                <a href="{{ route('admin.blog.edit', $blog) }}" title="ویرایش"
+                                   class="text-blue-600 hover:text-blue-800 p-2 rounded-full hover:bg-blue-100 transition duration-200">
                                     <i class="fas fa-edit text-lg"></i>
                                 </a>
-                                {{-- دکمه حذف --}}
-                                <form action="{{ route('admin.blog.destroy', $blog) }}" method="POST" onsubmit="return confirm('آیا مطمئن هستید که می‌خواهید این مقاله را حذف کنید؟');">
+                                <form action="{{ route('admin.blog.destroy', $blog) }}" method="POST"
+                                      onsubmit="return confirm('آیا مطمئن هستید که می‌خواهید این مقاله را حذف کنید؟');">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" title="حذف" class="text-red-600 hover:text-red-800 p-2 rounded-full hover:bg-red-100 transition duration-200 focus:outline-none">
+                                    <button type="submit" title="حذف" class="text-red-600 hover:text-red-800 p-2
+                                    rounded-full hover:bg-red-100 transition duration-200 focus:outline-none">
                                         <i class="fas fa-trash-alt text-lg"></i>
                                     </button>
                                 </form>
@@ -79,11 +82,8 @@
                 </tbody>
             </table>
         </div>
-
-        {{-- صفحه‌بندی --}}
         <div class="mt-8 flex justify-center">
             {{ $blogs->links() }}
         </div>
-
     </main>
 @endsection

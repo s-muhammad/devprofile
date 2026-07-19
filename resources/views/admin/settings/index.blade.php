@@ -9,13 +9,13 @@
             'site_email' => 'ایمیل سایت',
             'site_phone' => 'شماره تلفن',
             'site_address' => 'آدرس سایت',
-            'site_hours' => 'ساعات کاری',
-            'site_location' => 'لوکشین',
+            'site_active' => 'وضعیت سایت',
+            'maintenance_msg' => 'پیغام خطا',
             'seo_meta_keywords' => 'کلمات کلیدی سئو',
             'seo_meta_author' => 'نویسنده سئو',
             'seo_og_image' => 'تصویر Open Graph',
-            'social_facebook'=>'لینک فیسبوک',
-            'social_twitter'=>'لینک توییتر (X)',
+            'social_github'=>'لینک گیت هاب',
+            'social_linkedin'=>'لینک لینکدین',
             'social_instagram'=>'لینک اینستاگرام',
             'social_youtube'=>'لینک یوتیوب',
         ];
@@ -52,9 +52,9 @@
 
         {{-- کانتینر اصلی فرم --}}
         <div class="bg-white rounded-2xl shadow-xl p-0">
-            <form action="{{ route('admin.setting.update', 1) }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('admin.settings.update') }}" method="POST" enctype="multipart/form-data">
                 @csrf
-                @method('PUT')
+                @method('post')
 
                 {{-- ناوبری تب‌ها --}}
                 <div class="border-b border-gray-200">

@@ -1,0 +1,39 @@
+name: Deploy to Server
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Execute Deploy Command via SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SERVER_IP }}
+          username: ${{ secrets.SERVER_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 22
+          script: |
+            # ۱. اجرای دیپلوی پایه (کلون، کپی shared، سوئیچ symlink)
+            /usr/local/bin/dploy deploy main
+
+            # ۲. ورود به ریلیز جدید
+            cd /home/${{ secrets.SERVER_USERNAME }}/htdocs/[DOMAIN]/current
+
+            # ۳. اتصال فایل .env مرجع به ریلیز جدید
+            ln -sf ../../shared/.env .env
+
+            # ۴. نصب و بیلد فرانت‌اند
+            npm install
+            npm run build
+
+            # ۵. پاک‌سازی کش و اجرای مایگریشن‌های MySQL
+            php8.2 artisan optimize:clear
+            php8.2 artisan migrate --force
+            php8.2 artisan optimize
+
+            # ۶. مخصوص پروژه‌های TALL Stack (اگر لایووایر دارید، فعال کنید)
+            # php8.2 artisan livewire:publish --assets

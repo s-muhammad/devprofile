@@ -1,7 +1,7 @@
 <?php
 
 
-use App\Models\Setting;
+use App\Models\Settings;
 
 if (!function_exists('setting')) {
     /**
@@ -13,7 +13,7 @@ if (!function_exists('setting')) {
      */
     function setting(string $key, $default = null)
     {
-        $setting = Setting::where('key', $key)->first();
+        $setting = Settings::where('key', $key)->first();
         return $setting->value ?? $default;
     }
 }
