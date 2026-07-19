@@ -27,14 +27,21 @@
                         <input type="text" id="title" name="title" value="{{ $project->title }}"
                                class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2
                                focus:ring-blue-500 transition-colors duration-200"
-                               placeholder="عنوان سرویس را وارد کنید" required>
+                               placeholder="عنوان  را وارد کنید" required>
+                    </div>
+                    <div class="mb-6">
+                        <label for="url" class="block text-gray-700 text-sm font-semibold mb-2">آدرس </label>
+                        <input type="text" id="url" name="url" value="{{ $project->url }}"
+                               class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2
+                               focus:ring-blue-500 transition-colors duration-200"
+                               placeholder="آدرس  را وارد کنید" required>
                     </div>
                     <div class="mb-6">
                         <label for="content" class="block text-gray-700 text-sm font-semibold mb-2">توضیحات</label>
                         <textarea id="content" name="description" rows="10"
                                   class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2
                                   focus:ring-blue-500 transition-colors duration-200"
-                                  placeholder="محتوای اصلی سرویس را وارد کنید" required>{{ $project->description }}</textarea>
+                                  placeholder="محتوای اصلی  را وارد کنید" required>{{ $project->description }}</textarea>
                     </div>
                     <div class="mb-6">
                         <label for="image" class="block text-gray-700 text-sm font-semibold mb-2">تصویر </label>
@@ -47,6 +54,23 @@
                             <img src="{{asset($project->image)}}" alt=""  class="mr-4 w-30 h-20 object-cover rounded-md shadow">
     {{--                        <span id="file-name" class="mr-4 text-gray-500">فایلی انتخاب نشده است</span>--}}
                         </div>
+                    </div>
+                    {{-- فیلد رادیویی پست ویژه --}}
+                    <div class="mb-6">
+                        <label class="block text-gray-700 text-sm font-semibold mb-2">پست ویژه</label>
+                        <div class="flex items-center gap-6">
+                            <label class="flex items-center cursor-pointer">
+                                <input type="radio" name="is_featured" value="1" {{ $project->is_featured == '1' ? 'checked' : '' }}
+                                class="w-4 h-4 text-blue-600 focus:ring-blue-500 border-gray-300">
+                                <span class="mr-2 text-gray-700">بله</span>
+                            </label>
+                            <label class="flex items-center cursor-pointer">
+                                <input type="radio" name="is_featured" value="0" {{ $project->is_featured == '0' ? 'checked' : '' }}
+                                class="w-4 h-4 text-blue-600 focus:ring-blue-500 border-gray-300">
+                                <span class="mr-2 text-gray-700">خیر</span>
+                            </label>
+                        </div>
+                        <p class="text-xs text-gray-500 mt-1">در صورت انتخاب «بله»، این پروژه به عنوان پست ویژه نمایش داده می‌شود.</p>
                     </div>
                     <div class="flex justify-between space-x-4 space-x-reverse">
                         <button type="submit" class="bg-green-600 hover:bg-green-700 text-white font-semibold py-3

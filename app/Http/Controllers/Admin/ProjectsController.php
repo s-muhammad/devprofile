@@ -32,16 +32,23 @@ class ProjectsController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->validate([
+        $request->validate([
             'title' => 'required',
             'description' => 'required',
             'image' => 'required',
+            'url' => 'nullable',
+            'is_featured' => 'nullable',
         ]);
         $image = $this->uploader($request->file('image'));
+        if ($request->has('is_featured') && $request->is_featured == 1) {
+            Projects::where('is_featured', 1)->update(['is_featured' => 0]);
+        }
         Projects::create([
-            'title' => $data['title'],
-            'description' => $data['description'],
+            'title' => $request['title'],
+            'description' => $request['description'],
             'image' => $image,
+            'url' => $request['url'],
+            'is_featured' => $request['is_featured'],
         ]);
         return redirect()->route('admin.projects.index');
     }
@@ -71,16 +78,23 @@ class ProjectsController extends Controller
             'title' => 'required',
             'description' => 'required',
             'image' => 'nullable',
+            'url' => 'nullable',
+            'is_featured' => 'nullable',
         ]);
         $image = $project->image;
         if ($request->file('image')) {
             File::delete($image);
             $image = $this->uploader($request->file('image'));
         }
+        if ($request->has('is_featured') && $request->is_featured == 1) {
+            Projects::where('is_featured', 1)->update(['is_featured' => 0]);
+        }
         $project->update([
             'title' => $data['title'],
             'description' => $data['description'],
             'image' => $image,
+            'url' => $data['url'],
+            'is_featured' => $data['is_featured'],
         ]);
         return redirect()->route('admin.projects.index');
     }

@@ -33,6 +33,7 @@
                     <th class="py-4 px-4 rounded-r-xl">#</th>
                     <th class="py-4 px-4">عنوان </th>
                     <th class="py-4 px-4">متن </th>
+                    <th class="py-4 px-4">ویژه</th>
                     <th class="py-4 px-4 text-center">تصویر</th>
                     <th class="py-4 px-4 rounded-l-xl text-center">عملیات</th>
                 </tr>
@@ -45,7 +46,13 @@
                         <td class="py-4 px-4 font-semibold text-gray-800">{{ $project->title }}</td>
                         {{-- محدود کردن متن کوتاه --}}
                         <td class="py-4 px-4 text-gray-600 max-w-sm text-sm">{{ Str::limit($project->description, 60) }}</td>
-
+                        <td class="py-4 px-4 text-center">
+                            @if($project->is_featured)
+                                <i class="fas fa-check"></i>
+                            @else
+                                <i class="fas fa-times"></i>
+                            @endif
+                        </td>
                         {{-- نمایش تصویر/آیکون --}}
                         <td class="py-4 px-4 text-center">
                             @if($project->image)
