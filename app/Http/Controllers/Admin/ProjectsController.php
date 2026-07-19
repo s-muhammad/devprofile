@@ -79,24 +79,33 @@ class ProjectsController extends Controller
             'description' => 'required',
             'image' => 'nullable',
             'url' => 'nullable',
-            'is_featured' => 'nullable',
+            'is_featured' => 'nullable|boolean', // اضافه کردن boolean validation
         ]);
+
         $image = $project->image;
         if ($request->file('image')) {
             File::delete($image);
             $image = $this->uploader($request->file('image'));
         }
-        if ($request->has('is_featured') && $request->is_featured == 1) {
-            Projects::where('is_featured', 1)->update(['is_featured' => 0]);
+
+        // چک می‌کنیم که آیا کاربر درخواست ویژه کردن دارد یا خیر
+        $isFeatured = $request->has('is_featured') && $request->is_featured == 1;
+
+        if ($isFeatured) {
+            Projects::where('is_featured', 1)
+                ->where('id', '!=', $project->id) // پروژه فعلی را استثنا می‌کنیم
+                ->update(['is_featured' => 0]);
         }
+
         $project->update([
             'title' => $data['title'],
             'description' => $data['description'],
             'image' => $image,
             'url' => $data['url'],
-            'is_featured' => $data['is_featured'],
+            'is_featured' => $isFeatured ? 1 : 0,
         ]);
-        return redirect()->route('admin.projects.index');
+
+        return redirect()->route('admin.projects.index')->with('success', 'پروژه با موفقیت بروزرسانی شد.');
     }
 
     /**
