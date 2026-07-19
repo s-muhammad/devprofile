@@ -21,7 +21,7 @@ jobs:
             /usr/local/bin/dploy deploy main
 
             # ۲. ورود به ریلیز جدید
-            cd /home/${{ secrets.SERVER_USERNAME }}/htdocs/[DOMAIN]/current
+            cd /home/${{ secrets.SERVER_USERNAME }}/htdocs/devprofile.ir/current
 
             # ۳. اتصال فایل .env مرجع به ریلیز جدید
             ln -sf ../../shared/.env .env
