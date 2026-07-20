@@ -101,7 +101,7 @@
     <div class="max-w-[1320px] mx-auto px-6 lg:px-14 flex items-center justify-between h-[72px]">
         <a href="/" class="flex items-center gap-2.5 shrink-0">
             <div class="w-9 h-9 rounded-xl bg-[var(--ink)] flex items-center justify-center relative">
-                <img src="{{ setting('site_logo') }}" alt="">
+                <img src="{{ asset(setting('site_logo')) }}" alt="">
             </div>
             <span class="font-extrabold text-lg">Dev<span class="text-[var(--accent)]">Profile</span></span>
         </a>
@@ -143,7 +143,7 @@
 <footer class="bg-slate-900 text-white py-12">
     <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-10">
         <div>
-            <div class="text-3xl font-black italic mb-2">
+            <div class="text-3xl font-black italic mb-2 text-center">
                 <a href="{{ url('/') }}">
                     Dev<span class="text-indigo-500">Profile</span>.ir
                 </a>

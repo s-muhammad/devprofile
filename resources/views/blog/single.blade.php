@@ -1,4 +1,4 @@
-@extends('blog.layout')
+@extends('partials.layout')
 @section('main')
     <main class="max-w-7xl mx-auto px-4 py-10">
 
@@ -14,21 +14,25 @@
 
                 <header class="mb-10">
                     <div class="flex items-center gap-3 mb-6">
-                        <span class="bg-indigo-100 text-indigo-700 text-xs font-bold px-3 py-1 rounded-full">تکنولوژی</span>
-                        <span class="text-slate-400 text-xs">زمان مطالعه: ۱ دقیقه</span>
+                        <span
+                            class="bg-indigo-100 text-indigo-700 text-xs font-bold px-3 py-1 rounded-full">تکنولوژی</span>
+                        <span class="text-slate-400 text-xs">زمان مطالعه: {{ $blog->reading_time }} دقیقه</span>
                     </div>
                     <h1 class="text-3xl md:text-4xl font-extrabold leading-tight mb-8 text-slate-800">{{ $blog->title }}</h1>
 
                     <div class="flex items-center gap-4 p-4 bg-slate-50 rounded-2xl">
-                        <img src="{{ asset('/uploads/1757138423.png') }}" class="w-12 h-12 rounded-full border-2 border-white shadow-sm" alt="Author">
+                        <img src="{{ asset('/uploads/1757138423.png') }}"
+                             class="w-12 h-12 rounded-full border-2 border-white shadow-sm" alt="Author">
                         <div>
                             <p class="font-bold text-slate-800">سیدمحمد محمدی</p>
                             <p class="text-xs text-slate-500">نویسنده ارشد و توسعه‌دهنده وب</p>
                         </div>
-                        <div class="mr-auto text-xs text-slate-400">{{ $blog->created_at->format('Y M d') }}</div>
+                        <div
+                            class="mr-auto text-xs text-slate-400">{{ \Morilog\Jalali\Jalalian::fromCarbon($blog->created_at)->format('Y-m-d') }}</div>
                     </div>
                 </header>
-                <img src="{{ asset($blog->image) }}" class="w-full h-[400px] object-cover rounded-2xl mb-10 shadow-lg" alt="Cover">
+                <img src="{{ asset($blog->image) }}" class="w-full h-[400px] object-cover rounded-2xl mb-10 shadow-lg"
+                     alt="Cover">
                 <div class="prose prose-slate max-w-none text-slate-700 leading-8 space-y-6">
                     <p>{!! $blog->description !!}</p>
                 </div>
@@ -39,15 +43,22 @@
                         <span class="bg-slate-100 px-3 py-1 rounded-lg text-xs text-slate-600">#توسعه_وب</span>
                     </div>
                     <div class="flex gap-3">
-                        <button class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center hover:bg-indigo-600 hover:text-white transition">𝕏</button>
-                        <button class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center hover:bg-indigo-600 hover:text-white transition">in</button>
+                        <button
+                            class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center hover:bg-indigo-600 hover:text-white transition">
+                            𝕏
+                        </button>
+                        <button
+                            class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center hover:bg-indigo-600 hover:text-white transition">
+                            in
+                        </button>
                     </div>
                 </div>
 
                 <section class="mt-20">
                     <h3 class="text-2xl font-bold mb-8 flex items-center gap-3">
                         <span>نظرات کاربران</span>
-                        <span class="bg-slate-200 text-slate-700 text-sm px-2 py-0.5 rounded-md">{{ $comments->count() }}</span>
+                        <span
+                            class="bg-slate-200 text-slate-700 text-sm px-2 py-0.5 rounded-md">{{ $comments->count() }}</span>
                     </h3>
                     @foreach($comments as $comment)
                         <div class="space-y-6 mb-10">
@@ -119,7 +130,7 @@
                 <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-100">
                     <h4 class="font-bold text-lg mb-4 pb-2 border-b-2 border-indigo-500 w-fit">درباره نویسنده</h4>
                     <p class="text-sm text-slate-500 leading-7">
-                         بیش از 5 سال تجربه در توسعه پروژه‌های متن‌باز دارد و عاشق نوشتن درباره تکنولوژی‌های جدید است.
+                        بیش از 5 سال تجربه در توسعه پروژه‌های متن‌باز دارد و عاشق نوشتن درباره تکنولوژی‌های جدید است.
                     </p>
                 </div>
 
@@ -129,7 +140,9 @@
                         @foreach(\App\Models\Blog::latest()->take(3)->get() as $blog)
                             <a href="{{ url('blog',$blog->id) }}" class="group flex gap-4 items-center">
                                 <div class="w-16 h-16 rounded-xl overflow-hidden shrink-0">
-                                    <img src="{{ asset($blog->image) }}" class="w-full h-full object-cover group-hover:scale-110 transition" alt="Small Thumb">
+                                    <img src="{{ asset($blog->image) }}"
+                                         class="w-full h-full object-cover group-hover:scale-110 transition"
+                                         alt="Small Thumb">
                                 </div>
                                 <h5 class="text-sm font-bold group-hover:text-indigo-600 transition">{{ $blog->title }}</h5>
                             </a>
@@ -137,12 +150,12 @@
                     </div>
                 </div>
 
-{{--                <div class="bg-indigo-600 rounded-3xl p-8 text-white">--}}
-{{--                    <h4 class="text-xl font-bold mb-3">عضویت در خبرنامه</h4>--}}
-{{--                    <p class="text-indigo-100 text-xs leading-6 mb-6">بهترین مقالات هفته را در ایمیل خود دریافت کنید.</p>--}}
-{{--                    <input type="email" placeholder="ایمیل شما" class="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-2 text-sm outline-none mb-4 placeholder:text-indigo-200">--}}
-{{--                    <button class="w-full bg-white text-indigo-600 font-bold py-2 rounded-xl hover:bg-indigo-50 transition">ثبت نام</button>--}}
-{{--                </div>--}}
+                {{--                <div class="bg-indigo-600 rounded-3xl p-8 text-white">--}}
+                {{--                    <h4 class="text-xl font-bold mb-3">عضویت در خبرنامه</h4>--}}
+                {{--                    <p class="text-indigo-100 text-xs leading-6 mb-6">بهترین مقالات هفته را در ایمیل خود دریافت کنید.</p>--}}
+                {{--                    <input type="email" placeholder="ایمیل شما" class="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-2 text-sm outline-none mb-4 placeholder:text-indigo-200">--}}
+                {{--                    <button class="w-full bg-white text-indigo-600 font-bold py-2 rounded-xl hover:bg-indigo-50 transition">ثبت نام</button>--}}
+                {{--                </div>--}}
 
             </aside>
         </div>
