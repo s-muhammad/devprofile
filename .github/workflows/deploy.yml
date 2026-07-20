@@ -25,6 +25,8 @@ jobs:
 
             # ۳. اتصال فایل .env مرجع به ریلیز جدید
             ln -sf ../../shared/.env .env
+            
+            rm -f public/hot
 
             # ۴. نصب و بیلد فرانت‌اند
             npm install
