@@ -18,9 +18,29 @@ class IndexController extends Controller
 
     public function blog()
     {
-        $blogs = Blog::latest()->paginate(9);
-        $header =  Blog::whereBetween('id', [1, 4])->inRandomOrder()->first();
-        return view('blog.index', compact('blogs', 'header'));
+        $perPage = 6;
+        $blogs = Blog::latest()->paginate($perPage);
+        $header = Blog::whereBetween('id', [1, 4])->inRandomOrder()->first();
+        $total = Blog::count();
+        return view('blog.index', compact('blogs', 'header', 'total', 'perPage'));
+    }
+
+    public function blogLoadMore(Request $request)
+    {
+        $perPage = 6;
+        $page = $request->input('page', 2);
+        $blogs = Blog::latest()->paginate($perPage, ['*'], 'page', $page);
+        $total = Blog::count();
+
+        if ($request->ajax()) {
+            return response()->json([
+                'html' => view('blog.partials.card', ['blogs' => $blogs])->render(),
+                'hasMore' => $blogs->hasMorePages(),
+                'nextPage' => $page + 1,
+            ]);
+        }
+
+        return redirect()->route('blog.loadMore');
     }
 
     public function blogSingle(Blog $blog)

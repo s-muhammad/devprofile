@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [IndexController::class, 'index']);
 Route::get('blog', [IndexController::class, 'blog']);
+Route::get('blog/load-more', [IndexController::class, 'blogLoadMore'])->name('blog.loadMore');
 Route::get('blog/{blog}', [IndexController::class, 'blogSingle'])->name('blog.single');
 Route::post('comment', [IndexController::class, 'storeComment'])->name('comment.store');
 

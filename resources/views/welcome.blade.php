@@ -236,7 +236,7 @@
                       <span class="w-1.5 h-1.5 rounded-full bg-[#1FA971]"></span> LIVE
                     </span>
                         </div>
-                        <div class="proj-img thumb-3 h-52">
+                        <div class="proj-img thumb-4 h-52">
                             <div class="art absolute inset-0 flex items-center justify-center">
                                 <img src="{{ asset($project->image) }}" alt="{{ $project->title }}">
                             </div>

@@ -26,73 +26,119 @@
             </a>
         </section>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
-            @foreach($blogs as $blog)
-                <article
-                    class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-shadow border border-slate-100">
-                    <img src="{{ asset($blog->image) }}" class="w-full h-48 object-cover" alt="Post">
-                    <div class="p-6">
-                        <div class="flex justify-between items-center mb-3 text-xs text-slate-400">
-                            <span>۱۴ دی ۱۴۰۲</span>
-                            <span class="bg-slate-100 text-slate-600 px-2 py-1 rounded">تکنولوژی</span>
-                        </div>
-                        <a href="{{ url('blog',$blog->id) }}">
-                            <h3 class="text-xl font-bold mb-3 ">{{ $blog->title }}</h3>
-                            <p class="text-slate-500 text-sm leading-relaxed mb-4">{{ $blog->summary }}</p>
-                        </a>
-                    </div>
-                </article>
-            @endforeach
+        <div id="blogGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+            @include('blog.partials.card', ['blogs' => $blogs])
         </div>
 
-        @if($blogs->hasPages())
-            <div class="flex flex-col items-center gap-4 py-8">
-                <div class="flex items-center gap-1">
-                    {{-- قبلی --}}
-                    @if($blogs->onFirstPage())
-                        <span class="p-2 rounded-lg text-slate-400 bg-slate-100 cursor-not-allowed">
-                    ←
-                </span>
-                    @else
-                        <a href="{{ $blogs->previousPageUrl() }}"
-                           class="p-2 rounded-lg text-slate-600 bg-white border border-slate-200 hover:bg-indigo-50 hover:text-indigo-600 transition-colors">
-                            ←
-                        </a>
-                    @endif
-
-                    {{-- صفحات --}}
-                    @foreach($blogs->getUrlRange(1, $blogs->lastPage()) as $page => $url)
-                        @if($page == $blogs->currentPage())
-                            <span
-                                class="w-10 h-10 flex items-center justify-center rounded-lg bg-indigo-600 text-white font-medium shadow-sm">
-                        {{ $page }}
+        @if($blogs->hasMorePages())
+            <div class="flex flex-col items-center gap-4 py-8" id="loadMoreWrapper">
+                <button id="loadMoreBtn"
+                        data-page="2"
+                        data-url="{{ route('blog.loadMore') }}"
+                        class="group relative inline-flex items-center gap-3 px-8 py-3.5 rounded-full bg-[var(--ink)] text-white font-bold text-sm overflow-hidden transition-all duration-300 hover:shadow-xl hover:shadow-[var(--ink)]/20 hover:scale-[1.02] active:scale-[0.98]">
+                    <span class="relative z-10 flex items-center gap-2">
+                        <span id="loadMoreText">مقالات بیشتر</span>
+                        <svg id="loadMoreIcon" class="w-4 h-4 transition-transform duration-300 group-hover:translate-y-0.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
+                        </svg>
                     </span>
-                        @else
-                            <a href="{{ $url }}"
-                               class="w-10 h-10 flex items-center justify-center rounded-lg text-slate-600 bg-white border border-slate-200 hover:bg-indigo-50 hover:border-indigo-300 hover:text-indigo-600 transition-colors">
-                                {{ $page }}
-                            </a>
-                        @endif
-                    @endforeach
+                    <span id="loadMoreSpinner" class="hidden relative z-10">
+                        <svg class="animate-spin h-5 w-5 text-white" fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+                        </svg>
+                    </span>
+                    <span class="absolute inset-0 bg-gradient-to-l from-[var(--accent)] to-[var(--ink)] opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
+                </button>
 
-                    {{-- بعدی --}}
-                    @if($blogs->hasMorePages())
-                        <a href="{{ $blogs->nextPageUrl() }}"
-                           class="p-2 rounded-lg text-slate-600 bg-white border border-slate-200 hover:bg-indigo-50 hover:text-indigo-600 transition-colors">
-                            →
-                        </a>
-                    @else
-                        <span class="p-2 rounded-lg text-slate-400 bg-slate-100 cursor-not-allowed">
-                    →
-                </span>
-                    @endif
-                </div>
-
-                <p class="text-sm text-slate-500">
-                    صفحه {{ $blogs->currentPage() }} از {{ $blogs->lastPage() }}
+                <p class="text-xs text-[var(--muted-2)]">
+                    <span id="blogCount">{{ $blogs->count() }}</span> از {{ $total }} مقاله
                 </p>
             </div>
         @endif
 
     </main>
+
+    <style>
+        .line-clamp-2 {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .blog-card {
+            animation: fadeUp 0.4s ease forwards;
+        }
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+        .skeleton {
+            background: linear-gradient(90deg, var(--bg-soft) 25%, #e8e8f0 50%, var(--bg-soft) 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+            border-radius: 12px;
+        }
+    </style>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const btn = document.getElementById('loadMoreBtn');
+        if (!btn) return;
+
+        const grid = document.getElementById('blogGrid');
+        const text = document.getElementById('loadMoreText');
+        const icon = document.getElementById('loadMoreIcon');
+        const spinner = document.getElementById('loadMoreSpinner');
+        const countEl = document.getElementById('blogCount');
+        const wrapper = document.getElementById('loadMoreWrapper');
+        let page = parseInt(btn.dataset.page);
+        const url = btn.dataset.url;
+
+        btn.addEventListener('click', function() {
+            btn.disabled = true;
+            text.textContent = 'در حال بارگذاری...';
+            icon.classList.add('hidden');
+            spinner.classList.remove('hidden');
+
+            fetch(`${url}?page=${page}`, {
+                headers: { 'X-Requested-With': 'XMLHttpRequest' }
+            })
+            .then(r => r.json())
+            .then(data => {
+                const temp = document.createElement('div');
+                temp.innerHTML = data.html;
+                const cards = temp.querySelectorAll('.blog-card');
+
+                cards.forEach((card, i) => {
+                    card.style.animationDelay = `${i * 0.08}s`;
+                    grid.appendChild(card);
+                });
+
+                page++;
+                countEl.textContent = grid.querySelectorAll('.blog-card').length;
+
+                if (data.hasMore) {
+                    btn.dataset.page = page;
+                    btn.disabled = false;
+                    text.textContent = 'مقالات بیشتر';
+                    icon.classList.remove('hidden');
+                    spinner.classList.add('hidden');
+                } else {
+                    wrapper.innerHTML = '<p class="text-sm text-[var(--muted)] py-4">تمام مقالات نمایش داده شد</p>';
+                }
+            })
+            .catch(() => {
+                btn.disabled = false;
+                text.textContent = 'مقالات بیشتر';
+                icon.classList.remove('hidden');
+                spinner.classList.add('hidden');
+            });
+        });
+    });
+    </script>
 @endsection
