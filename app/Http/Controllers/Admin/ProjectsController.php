@@ -84,7 +84,10 @@ class ProjectsController extends Controller
 
         $image = $project->image;
         if ($request->file('image')) {
-            File::delete($image);
+            $oldPath = public_path($image);
+            if (File::exists($oldPath)) {
+                File::delete($oldPath);
+            }
             $image = $this->uploader($request->file('image'));
         }
 
@@ -113,7 +116,10 @@ class ProjectsController extends Controller
      */
     public function destroy( Projects $project)
     {
-        File::delete($project->image);
+        $path = public_path($project->image);
+        if (File::exists($path)) {
+            File::delete($path);
+        }
         $project->delete();
         return redirect()->route('admin.projects.index');
     }

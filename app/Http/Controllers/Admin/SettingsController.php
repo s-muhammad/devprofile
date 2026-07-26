@@ -24,7 +24,7 @@ class SettingsController extends Controller
                 $path = $this->uploader($request->file($key));
 
                 if ($setting->value && File::exists(public_path($setting->value))) {
-                    File::delete($setting->value);
+                    File::delete(public_path($setting->value));
                 }
                 $value = $path;
             }

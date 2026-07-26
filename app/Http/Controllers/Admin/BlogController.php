@@ -77,7 +77,10 @@ class BlogController extends Controller
         ]);
         $image = $blog->image;
         if ($request->file('image')) {
-            File::delete($image);
+            $oldPath = public_path($image);
+            if (File::exists($oldPath)) {
+                File::delete($oldPath);
+            }
             $image = $this->uploader($request->file('image'));
         }
         $blog->update([
@@ -94,7 +97,10 @@ class BlogController extends Controller
      */
     public function destroy(Blog $blog)
     {
-        File::delete($blog->image);
+        $path = public_path($blog->image);
+        if (File::exists($path)) {
+            File::delete($path);
+        }
         $blog->delete();
         return redirect()->route('admin.blog.index');
     }
