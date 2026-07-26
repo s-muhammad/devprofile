@@ -12,7 +12,13 @@ class IndexController extends Controller
     public function index()
     {
         $blogs = Blog::latest()->take(3)->get();
-        $projects = Projects::latest()->take(3)->get();
+        $featured = Projects::where('is_featured', 1)->first();
+        $query = Projects::latest()->take(3);
+        if ($featured) {
+            $query->where('id', '!=', $featured->id);
+        }
+        $otherProjects = $query->get();
+        $projects = collect([$featured])->filter()->concat($otherProjects)->take(3);
         return view('welcome', compact('projects', 'blogs'));
     }
 
