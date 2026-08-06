@@ -1,4 +1,4 @@
-name: Deploy to Server
+name: Build and Deploy
 
 on:
   push:
@@ -6,36 +6,32 @@ on:
       - main
 
 jobs:
-  deploy:
+  build-and-push:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
     steps:
-      - name: Execute Deploy Command via SSH
-        uses: appleboy/ssh-action@v1.0.3
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
         with:
-          host: ${{ secrets.SERVER_IP }}
-          username: ${{ secrets.SERVER_USERNAME }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          port: 22
-          script: |
-            # ۱. اجرای دیپلوی پایه (کلون، کپی shared، سوئیچ symlink)
-            /usr/local/bin/dploy deploy main
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
-            # ۲. ورود به ریلیز جدید
-            cd /home/${{ secrets.SERVER_USERNAME }}/htdocs/devprofile.ir/current
+      - name: Build and push image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: ghcr.io/s-muhammad/devprofile:latest
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
 
-            # ۳. اتصال فایل .env مرجع به ریلیز جدید
-            ln -sf ../../shared/.env .env
-            
-            rm -f public/hot
-
-            # ۴. نصب و بیلد فرانت‌اند
-            npm install
-            npm run build
-
-            # ۵. پاک‌سازی کش و اجرای مایگریشن‌های MySQL
-            php8.2 artisan optimize:clear
-            php8.2 artisan migrate --force
-            php8.2 artisan optimize
-
-            # ۶. مخصوص پروژه‌های TALL Stack (اگر لایووایر دارید، فعال کنید)
-            # php8.2 artisan livewire:publish --assets
+      - name: Trigger Coolify deploy
+        run: |
+          curl -fsSL -X GET "${{ secrets.COOLIFY_WEBHOOK_URL }}" \
+            -H "Authorization: Bearer ${{ secrets.COOLIFY_WEBHOOK_TOKEN }}"
