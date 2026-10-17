@@ -32,7 +32,7 @@
                     </div>
                 </header>
                 <img src="{{ asset($blog->image) }}" class="w-full h-[400px] object-cover rounded-2xl mb-10 shadow-lg"
-                     alt="Cover">
+                     alt="{{ $blog->title }}">
                 <div class="prose prose-slate max-w-none text-slate-700 leading-8 space-y-6">
                     <p>{!! $blog->description !!}</p>
                 </div>

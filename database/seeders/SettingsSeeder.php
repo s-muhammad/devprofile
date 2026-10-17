@@ -24,8 +24,8 @@ class SettingsSeeder extends Seeder
             ['key' => 'site_active', 'value' => '1', 'type' => 'boolean', 'group' => 'general'],
             ['key' => 'maintenance_msg', 'value' => 'سایت در حال بروزرسانی است', 'type' => 'textarea', 'group' => 'general'],
 
-            ['key' => 'social_facebook', 'value' => 'https://facebook.com/yourpage', 'type' => 'text', 'group' => 'social'],
-            ['key' => 'social_twitter', 'value' => 'https://twitter.com/yourpage', 'type' => 'text', 'group' => 'social'],
+            ['key' => 'social_github', 'value' => 'https://facebook.com/yourpage', 'type' => 'text', 'group' => 'social'],
+            ['key' => 'social_linkedin', 'value' => 'https://twitter.com/yourpage', 'type' => 'text', 'group' => 'social'],
             ['key' => 'social_instagram', 'value' => 'https://instagram.com/yourpage', 'type' => 'text', 'group' => 'social'],
             ['key' => 'social_youtube', 'value' => 'https://youtube.com/yourpage', 'type' => 'text', 'group' => 'social'],
 

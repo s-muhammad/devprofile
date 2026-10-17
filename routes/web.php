@@ -4,6 +4,8 @@ use App\Http\Controllers\Admin\BlogController;
 use App\Http\Controllers\Admin\CommentsController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ProjectsController;
+use App\Http\Controllers\Admin\SeoKeywordController;
+use App\Http\Controllers\Admin\SeoTaskController;
 use App\Http\Controllers\Admin\SettingsController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\AuthController;
@@ -17,18 +19,24 @@ Route::get('blog/{blog}', [IndexController::class, 'blogSingle'])->name('blog.si
 Route::post('comment', [IndexController::class, 'storeComment'])->name('comment.store');
 
 Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
-   Route::get('/',[DashboardController::class, 'index']);
-   Route::resource('user',UserController::class);
-   Route::resource('blog', BlogController::class);
-   Route::resource('projects',ProjectsController::class);
-   Route::resource('comments',CommentsController::class)->only(['index','destroy','update']);
-   Route::get('settings/index', [SettingsController::class, 'index'])->name('settings.index');
-   Route::post('settings/update', [SettingsController::class, 'update'])->name('settings.update');
+    Route::get('/', [DashboardController::class, 'index']);
+    Route::resource('user', UserController::class);
+    Route::resource('blog', BlogController::class);
+    Route::resource('projects', ProjectsController::class);
+    Route::resource('comments', CommentsController::class)->only(['index', 'destroy', 'update']);
+    Route::get('settings/index', [SettingsController::class, 'index'])->name('settings.index');
+    Route::post('settings/update', [SettingsController::class, 'update'])->name('settings.update');
+
+    Route::prefix('seo')->name('seo.')->group(function () {
+        Route::resource('keywords', SeoKeywordController::class)->except('show');
+        Route::patch('keywords/{keyword}/status', [SeoKeywordController::class, 'updateStatus'])->name('keywords.status');
+        Route::resource('tasks', SeoTaskController::class)->except('show');
+        Route::patch('tasks/{task}/toggle', [SeoTaskController::class, 'toggleStatus'])->name('tasks.toggle');
+    });
 });
 
-Route::get('login',[AuthController::class,'loginForm'])->name('login');
-Route::post('login',[AuthController::class,'login'])->name('login.post');
-Route::post('logout',[AuthController::class,'logout'])->name('logout');
-//Route::get('register',[AuthController::class,'registerForm'])->name('register');
-//Route::post('register',[AuthController::class,'register'])->name('register.post');
-
+Route::get('login', [AuthController::class, 'loginForm'])->name('login');
+Route::post('login', [AuthController::class, 'login'])->name('login.post');
+Route::post('logout', [AuthController::class, 'logout'])->name('logout');
+// Route::get('register',[AuthController::class,'registerForm'])->name('register');
+// Route::post('register',[AuthController::class,'register'])->name('register.post');

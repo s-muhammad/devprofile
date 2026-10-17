@@ -21,12 +21,14 @@
                 'admin.comments.index' => ['label' => 'نظرات', 'icon' => 'fas fa-file-alt'],
                 'admin.blog.index' => ['label' => 'مقالات', 'icon' => 'fas fa-newspaper'],
                 'admin.projects.index' => ['label' => 'پروژه ها', 'icon' => 'fas fa-handshake'],
+                'admin.seo.keywords.index' => ['label' => 'سئو', 'icon' => 'fas fa-search', 'match' => 'admin.seo.*'],
                 'admin.settings.index' => ['label' => 'تنظیمات', 'icon' => 'fas fa-cog'],
             ];
         @endphp
         @foreach($links as $route => $data)
             @php
-                $isActive = request()->routeIs($route);
+                $isActive = request()->routeIs($route)
+                    || (isset($data['match']) && request()->routeIs($data['match']));
             @endphp
             <a href="{{ route($route) }}"
                class="flex items-center p-3 rounded-xl transition-all duration-200 ease-in-out group
