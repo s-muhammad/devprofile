@@ -29,6 +29,14 @@
                                placeholder="عنوان مقاله را وارد کنید" required>
                     </div>
                     <div class="mb-6">
+                        <label for="slug" class="block text-gray-700 text-sm font-semibold mb-2">اسلاگ (اختیاری)</label>
+                        <input type="text" id="slug" name="slug" value="{{ old('slug') }}" dir="ltr"
+                               class="w-full px-4 py-3 rounded-lg border border-gray-300 text-left focus:outline-none focus:ring-2
+                               focus:ring-blue-500 transition-colors duration-200"
+                               placeholder="my-first-post">
+                        <p class="text-xs text-gray-400 mt-1">در آدرس مقاله استفاده می‌شود. اگر خالی باشد از شناسه استفاده می‌شود.</p>
+                    </div>
+                    <div class="mb-6">
                         <label for="summary" class="block text-gray-700 text-sm font-semibold mb-2">خلاصه مقاله</label>
                         <textarea id="summary" name="summary" rows="4"
                                   class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2

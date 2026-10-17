@@ -11,7 +11,7 @@
     <main class="max-w-7xl mx-auto px-4 pb-20">
 
         <section class="mb-16">
-            <a href="{{ url('blog',$header->id) }}">
+            <a href="{{ $header->routeUrl() }}">
                 <div class="relative h-[450px] rounded-3xl overflow-hidden group cursor-pointer shadow-2xl">
                     <img src="{{ $header->image }}"
                          class="w-full h-full object-cover transition duration-500 group-hover:scale-105"

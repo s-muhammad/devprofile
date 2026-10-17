@@ -7,6 +7,7 @@ use App\Models\Blog;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class BlogController extends Controller
 {
@@ -16,7 +17,8 @@ class BlogController extends Controller
     public function index()
     {
         $blogs = Blog::latest()->paginate(10);
-        return view('admin.blog.index',compact('blogs'));
+
+        return view('admin.blog.index', compact('blogs'));
     }
 
     /**
@@ -34,6 +36,7 @@ class BlogController extends Controller
     {
         $data = $request->validate([
             'title' => 'required',
+            'slug' => 'nullable|string|max:255',
             'description' => 'required',
             'image' => 'required',
             'summary' => 'required',
@@ -41,6 +44,7 @@ class BlogController extends Controller
         $image = $this->uploader($request->file('image'));
         Blog::create([
             'title' => $data['title'],
+            'slug' => $this->resolveSlug($data['slug'] ?? null),
             'description' => $data['description'],
             'image' => $image,
             'summary' => $data['summary'],
@@ -61,7 +65,7 @@ class BlogController extends Controller
      */
     public function edit(Blog $blog)
     {
-        return view('admin.blog.edit',compact('blog'));
+        return view('admin.blog.edit', compact('blog'));
     }
 
     /**
@@ -71,6 +75,7 @@ class BlogController extends Controller
     {
         $data = $request->validate([
             'title' => 'required',
+            'slug' => 'nullable|string|max:255',
             'description' => 'required',
             'image' => 'nullable',
             'summary' => 'required',
@@ -85,6 +90,7 @@ class BlogController extends Controller
         }
         $blog->update([
             'title' => $data['title'],
+            'slug' => $this->resolveSlug($data['slug'] ?? null, $blog),
             'description' => $data['description'],
             'image' => $image,
             'summary' => $data['summary'],
@@ -102,14 +108,40 @@ class BlogController extends Controller
             File::delete($path);
         }
         $blog->delete();
+
         return redirect()->route('admin.blog.index');
     }
 
-    function uploader($file)
+    public function uploader($file)
     {
         $path = 'uploads/blog/';
-        $filename = time() . '.' . $file->getClientOriginalExtension();
+        $filename = time().'.'.$file->getClientOriginalExtension();
         $file->move($path, $filename);
-        return $path . $filename;
+
+        return $path.$filename;
+    }
+
+    /**
+     * Sanitize a slug and ensure it is unique (ignoring the given blog on update).
+     */
+    private function resolveSlug(?string $slug, ?Blog $ignore = null): ?string
+    {
+        $slug = Str::slug($slug ?? '');
+
+        if ($slug === '') {
+            return null;
+        }
+
+        $base = $slug;
+        $i = 1;
+        while (
+            Blog::where('slug', $slug)
+                ->when($ignore, fn ($q) => $q->where('id', '!=', $ignore->id))
+                ->exists()
+        ) {
+            $slug = $base.'-'.$i++;
+        }
+
+        return $slug;
     }
 }

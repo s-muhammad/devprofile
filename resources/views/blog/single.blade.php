@@ -5,7 +5,7 @@
         <nav class="flex text-slate-400 text-xs mb-6 gap-2">
             <a href="{{ url('/blog') }}" class="hover:text-indigo-600">خانه</a>
             <span>/</span>
-            <a href="{{ url('blog',$blog->id) }}" class="hover:text-indigo-600">{{ $blog->title }}</a>
+            <a href="{{ $blog->routeUrl() }}" class="hover:text-indigo-600">{{ $blog->title }}</a>
         </nav>
 
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
@@ -138,7 +138,7 @@
                     <h4 class="font-bold text-lg mb-6">مقالات پیشنهادی</h4>
                     <div class="space-y-6">
                         @foreach(\App\Models\Blog::latest()->take(3)->get() as $blog)
-                            <a href="{{ url('blog',$blog->id) }}" class="group flex gap-4 items-center">
+                            <a href="{{ $blog->routeUrl() }}" class="group flex gap-4 items-center">
                                 <div class="w-16 h-16 rounded-xl overflow-hidden shrink-0">
                                     <img src="{{ asset($blog->image) }}"
                                          class="w-full h-full object-cover group-hover:scale-110 transition"

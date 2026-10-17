@@ -296,7 +296,7 @@
 
         <div class="grid md:grid-cols-3 gap-6">
             @foreach($blogs as $blog)
-                <a href="{{ route('blog.single',$blog->id) }}">
+                <a href="{{ $blog->routeUrl() }}">
                     <article class="reveal card overflow-hidden">
                         <div class="h-40 thumb-1 flex items-center justify-center">
                             <img src="{{ asset( $blog->image ) }}" alt="">

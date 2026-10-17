@@ -6,7 +6,27 @@ use Illuminate\Database\Eloquent\Model;
 
 class Blog extends Model
 {
-    protected $fillable = ['title','description','image','summary'];
+    protected $fillable = ['title', 'slug', 'description', 'image', 'summary'];
+
+    /**
+     * Resolve a route key by slug first, then by id (for legacy URLs).
+     */
+    public function resolveRouteBinding($value, $field = null)
+    {
+        if (is_numeric($value)) {
+            return $this->where('id', $value)->first();
+        }
+
+        return $this->where('slug', $value)->first();
+    }
+
+    /**
+     * Public URL of the article: slug-based, falling back to id when no slug.
+     */
+    public function routeUrl(): string
+    {
+        return url('blog', $this->slug ?: $this->id);
+    }
 
     public function comments()
     {
@@ -16,7 +36,7 @@ class Blog extends Model
     public function getReadingTimeAttribute()
     {
         // ۱. اگر متن خالی بود، 1 دقیقه برگردان
-        if (!$this->description) {
+        if (! $this->description) {
             return 1;
         }
 

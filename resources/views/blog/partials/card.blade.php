@@ -1,7 +1,7 @@
 @foreach($blogs as $blog)
     <article class="blog-card bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-[var(--border)] hover:-translate-y-1"
              style="opacity:0; transform:translateY(20px);">
-        <a href="{{ url('blog',$blog->id) }}">
+        <a href="{{ $blog->routeUrl() }}">
             <div class="relative overflow-hidden">
                 <img src="{{ asset($blog->image) }}" class="w-full h-48 object-cover transition-transform duration-500 hover:scale-105" alt="{{ $blog->title }}">
             </div>
