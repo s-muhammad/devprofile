@@ -48,7 +48,7 @@
                         <td class="py-4 px-4 text-gray-600">{{ $user->email }}</td>
                         <td class="py-4 px-4 text-gray-500 text-sm">
                             <span class="bg-gray-200 text-gray-700 py-1 px-3 rounded-full">
-                                {{ $user->created_at->format('Y/m/d') }}
+                                {{ jalali_date($user->created_at) }}
                             </span>
                         </td>
                         <td class="py-4 px-4 text-center">
@@ -71,7 +71,7 @@
                 @empty
                     <tr>
                         <td colspan="5" class="py-12 text-center text-gray-500 text-lg">
-                            <i class="fas fa-box-open mb-3 text-3xl"></i>
+                            <i class="fas fa-users mb-3 text-3xl text-gray-300"></i>
                             <p>هیچ کاربری برای نمایش وجود ندارد.</p>
                         </td>
                     </tr>

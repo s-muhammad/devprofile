@@ -68,8 +68,8 @@
                 @empty
                     <tr>
                         <td colspan="6" class="py-12 text-center text-gray-500 text-lg">
-{{--                            <i class="fas fa-book-open mb-3 text-3xl text-gray-300"></i>--}}
-                            <p>هیچ موردی برای نمایش وجود ندارد.</p>
+                            <i class="fas fa-comments mb-3 text-3xl text-gray-300"></i>
+                            <p>هیچ نظری برای نمایش وجود ندارد.</p>
                         </td>
                     </tr>
                 @endforelse

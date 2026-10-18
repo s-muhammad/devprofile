@@ -1,0 +1,22 @@
+# VCS / editors
+.git
+.github
+.idea
+.vscode
+
+# Dependencies (installed inside the image)
+node_modules
+vendor
+
+# Build artifacts (generated in the Docker build; must not be shipped from context)
+public/build
+public/hot
+
+# Logs / local state
+storage/*.log
+npm-debug.log
+
+# Local env (never bake secrets into the image)
+.env
+.env.*
+!.env.example

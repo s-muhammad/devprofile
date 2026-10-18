@@ -109,7 +109,7 @@
         <nav class="hidden md:flex items-center gap-10 text-sm font-medium text-[var(--muted)]">
             <a href="{{ url('/') . '#skills'}}" class="nav-link hover:text-[var(--ink)] transition-colors py-1">مهارت‌ها</a>
             <a href="{{ url('/') .  '#projects'}}" class="nav-link hover:text-[var(--ink)] transition-colors py-1">پروژه‌ها</a>
-            <a href="{{ url('/') .  '#articles'}}" class="nav-link hover:text-[var(--ink)] transition-colors py-1">مقالات</a>
+            <a href="{{ url('blog')}}" class="nav-link hover:text-[var(--ink)] transition-colors py-1">مقالات</a>
             {{--            <a href="#about" class="nav-link hover:text-[var(--ink)] transition-colors py-1">درباره من</a>--}}
         </nav>
 

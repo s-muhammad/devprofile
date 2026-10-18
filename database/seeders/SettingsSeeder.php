@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\Settings;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class SettingsSeeder extends Seeder
@@ -32,6 +31,11 @@ class SettingsSeeder extends Seeder
             ['key' => 'seo_meta_keywords', 'value' => 'laravel, php, blog', 'type' => 'textarea', 'group' => 'seo'],
             ['key' => 'seo_meta_author', 'value' => 'Admin', 'type' => 'text', 'group' => 'seo'],
             ['key' => 'seo_og_image', 'value' => null, 'type' => 'image', 'group' => 'seo'],
+
+            ['key' => 'ads_banner_active', 'value' => '0', 'type' => 'boolean', 'group' => 'ads'],
+            ['key' => 'ads_banner_image', 'value' => null, 'type' => 'image', 'group' => 'ads'],
+            ['key' => 'ads_banner_link', 'value' => null, 'type' => 'text', 'group' => 'ads'],
+            ['key' => 'ads_banner_title', 'value' => null, 'type' => 'text', 'group' => 'ads'],
         ];
 
         foreach ($settings as $setting) {

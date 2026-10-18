@@ -1,6 +1,3 @@
-@php
-    $currentRoute = request()->routeIs('admin.index') ? 'admin.index' : 'admin.user.index';
-@endphp
 <aside id="sidebar"
        class="fixed inset-y-0 right-0 w-64 bg-gradient-to-br from-gray-900 to-gray-800 text-white p-6 shadow-2xl z-50
               md:relative md:block hidden transition-all duration-300 ease-in-out border-l border-gray-700/50">

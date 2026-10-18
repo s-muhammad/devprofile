@@ -18,12 +18,17 @@
             'social_linkedin'=>'لینک لینکدین',
             'social_instagram'=>'لینک اینستاگرام',
             'social_youtube'=>'لینک یوتیوب',
+            'ads_banner_active'=>'نمایش بنر تبلیغاتی',
+            'ads_banner_image'=>'تصویر بنر تبلیغاتی',
+            'ads_banner_link'=>'لینک بنر تبلیغاتی',
+            'ads_banner_title'=>'متن جایگزین بنر (alt)',
         ];
 
         $translation_groups = [
             'general' => ['name' => 'تنظیمات عمومی', 'icon' => 'fas fa-cogs', 'color' => 'blue'],
             'social' => ['name' => 'شبکه‌های اجتماعی', 'icon' => 'fas fa-share-alt', 'color' => 'purple'],
             'seo' => ['name' => 'تنظیمات سئو', 'icon' => 'fas fa-chart-line', 'color' => 'green'],
+            'ads' => ['name' => 'تبلیغات', 'icon' => 'fas fa-bullhorn', 'color' => 'red'],
         ];
 
         // تعیین تب فعال اولیه (مثلاً 'general')

@@ -54,6 +54,10 @@
                         <td class="py-4 px-4 text-gray-500 text-sm">{{ $blog->created_at->diffForHumans() }}</td>
                         <td class="py-4 px-4 text-center">
                             <div class="flex items-center justify-center space-x-3 space-x-reverse">
+                                <a href="{{ $blog->routeUrl() }}" title="نمایش" target="_blank"
+                                   class="text-green-600 hover:text-green-800 rounded-full hover:bg-green-100 transition duration-200">
+                                    <i class="fas fa-eye text-lg"></i>
+                                </a>
                                 <a href="{{ route('admin.blog.edit', $blog) }}" title="ویرایش"
                                    class="text-blue-600 hover:text-blue-800 p-2 rounded-full hover:bg-blue-100 transition duration-200">
                                     <i class="fas fa-edit text-lg"></i>
@@ -72,7 +76,7 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="6" class="py-12 text-center text-gray-500 text-lg">
+                        <td colspan="5" class="py-12 text-center text-gray-500 text-lg">
                             <i class="fas fa-book-open mb-3 text-3xl text-gray-300"></i>
                             <p>هیچ مقاله‌ای برای نمایش وجود ندارد.</p>
                             <p class="text-sm mt-1">از دکمه بالا برای ایجاد اولین مقاله استفاده کنید.</p>

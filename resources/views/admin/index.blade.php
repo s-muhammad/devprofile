@@ -1,6 +1,6 @@
 @extends('admin.layout.app')
 @section('main')
-    <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-50 p-6 md:p-8">
+    <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-50 p-6 md:p-10">
         <h1 class="text-3xl font-extrabold text-gray-900 mb-6 border-b pb-2">👋 اقدامات سریع </h1>
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
             <a href="{{ route('admin.blog.create') }}" class="block transform transition-transform duration-300 hover:scale-[1.03]">
@@ -58,7 +58,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="4" class="text-center py-6 text-gray-500">مقاله جدیدی برای نمایش وجود ندارد.</td>
+                                <td colspan="3" class="text-center py-6 text-gray-500">مقاله جدیدی برای نمایش وجود ندارد.</td>
                             </tr>
                         @endforelse
                         </tbody>
@@ -87,7 +87,7 @@
                         @forelse($projects as $project)
                             <tr class="border-b border-gray-100 hover:bg-red-50/50 transition-colors duration-200">
                                 <td class="py-3 px-4 text-gray-700">{{ $loop->iteration }}</td>
-                                <td class="py-3 px-4 font-medium text-gray-900">{{ $project->title ?? 'کاربر ناشناس' }}</td>
+                                <td class="py-3 px-4 font-medium text-gray-900">{{ $project->title ?? 'بدون عنوان' }}</td>
                                 <td class="py-3 px-4">
                                     @if(isset($project->image) && $project->image)
                                         <img src="{{ asset($project->image) }}" alt="{{ $project->title }}" class="w-12 h-10 object-cover rounded-md shadow">
@@ -98,7 +98,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="4" class="text-center py-6 text-gray-500">پروژه جدیدی برای نمایش وجود ندارد.</td>
+                                <td colspan="3" class="text-center py-6 text-gray-500">پروژه جدیدی برای نمایش وجود ندارد.</td>
                             </tr>
                         @endforelse
                         </tbody>

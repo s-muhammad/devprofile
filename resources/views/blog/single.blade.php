@@ -33,8 +33,8 @@
                 </header>
                 <img src="{{ asset($blog->image) }}" class="w-full h-[400px] object-cover rounded-2xl mb-10 shadow-lg"
                      alt="{{ $blog->title }}">
-                <div class="prose prose-slate max-w-none text-slate-700 leading-8 space-y-6">
-                    <p>{!! $blog->description !!}</p>
+                <div class="article-content">
+                    {!! $blog->description !!}
                 </div>
 
                 <div class="mt-16 pt-8 border-t border-slate-100 flex flex-wrap justify-between items-center gap-4">
@@ -150,6 +150,27 @@
                     </div>
                 </div>
 
+                {{-- بنر تبلیغاتی (از تنظیمات پنل مدیریت) --}}
+                @if(setting('ads_banner_active') == '1' && setting('ads_banner_image'))
+                    @php $adsLink = setting('ads_banner_link'); @endphp
+                    <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-100">
+                        <div class="flex items-center justify-between mb-4">
+                            <h4 class="font-bold text-lg">تبلیغات</h4>
+                            <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400 bg-slate-100 px-2 py-0.5 rounded-full">Ad</span>
+                        </div>
+                        <a href="{{ $adsLink ?: '#' }}"
+                           @if($adsLink) target="_blank" rel="noopener sponsored" @endif
+                           class="block group overflow-hidden rounded-2xl border border-slate-100">
+                            <img src="{{ asset(setting('ads_banner_image')) }}"
+                                 alt="{{ setting('ads_banner_title') ?: 'بنر تبلیغاتی' }}"
+                                 class="w-full h-auto object-cover transition duration-300 group-hover:scale-[1.03]">
+                        </a>
+                        @if(setting('ads_banner_title'))
+                            <p class="text-xs text-slate-400 mt-3 text-center">{{ setting('ads_banner_title') }}</p>
+                        @endif
+                    </div>
+                @endif
+
                 {{--                <div class="bg-indigo-600 rounded-3xl p-8 text-white">--}}
                 {{--                    <h4 class="text-xl font-bold mb-3">عضویت در خبرنامه</h4>--}}
                 {{--                    <p class="text-indigo-100 text-xs leading-6 mb-6">بهترین مقالات هفته را در ایمیل خود دریافت کنید.</p>--}}
@@ -160,4 +181,159 @@
             </aside>
         </div>
     </main>
+
+    <style>
+        .article-content{
+            font-size:1.075rem;
+            line-height:2.1;
+            color:#3F4557;
+            word-break:break-word;
+        }
+        .article-content > *:first-child{ margin-top:0; }
+        .article-content > *:last-child{ margin-bottom:0; }
+
+        /* --- headings --- */
+        .article-content h1,
+        .article-content h2,
+        .article-content h3,
+        .article-content h4,
+        .article-content h5,
+        .article-content h6{
+            color:var(--ink);
+            font-weight:800;
+            line-height:1.7;
+            margin:2.25rem 0 1rem;
+        }
+        .article-content h1{ font-size:2rem; }
+        .article-content h2{
+            font-size:1.6rem;
+            padding-inline-start:.75rem;
+            border-inline-start:4px solid var(--accent);
+        }
+        .article-content h3{ font-size:1.35rem; }
+        .article-content h4{ font-size:1.15rem; }
+        .article-content h5{ font-size:1rem; }
+        .article-content h6{ font-size:.9rem; color:var(--muted); }
+
+        /* --- paragraph --- */
+        .article-content p{ margin:0 0 1.35rem; }
+
+        /* --- links --- */
+        .article-content a{
+            color:var(--accent);
+            text-decoration:none;
+            border-bottom:1px solid rgba(79,57,246,.3);
+            transition:border-color .2s ease, color .2s ease;
+        }
+        .article-content a:hover{ border-bottom-color:var(--accent); }
+
+        /* --- lists --- */
+        .article-content ul,
+        .article-content ol{ margin:0 0 1.35rem; padding-inline-start:1.7rem; }
+        .article-content ul{ list-style:disc; }
+        .article-content ol{ list-style:decimal; }
+        .article-content li{ margin-bottom:.5rem; }
+        .article-content li::marker{ color:var(--accent); font-weight:700; }
+
+        /* --- blockquote --- */
+        .article-content blockquote{
+            margin:1.75rem 0;
+            padding:1.15rem 1.35rem;
+            background:var(--bg-soft);
+            border-inline-start:4px solid var(--accent);
+            border-radius:12px;
+            color:var(--muted);
+            font-style:italic;
+        }
+
+        /* --- inline code --- */
+        .article-content code{
+            direction:ltr;
+            display:inline-block;
+            font-family:'JetBrains Mono',monospace;
+            font-size:.9em;
+            background:var(--accent-soft);
+            color:var(--accent);
+            padding:.15em .45em;
+            border-radius:6px;
+        }
+
+        /* --- code block --- */
+        .article-content pre{
+            direction:ltr;
+            text-align:left;
+            margin:1.75rem 0;
+            padding:1.25rem 1.35rem;
+            background:var(--ink);
+            color:#E7E7F2;
+            border-radius:14px;
+            overflow-x:auto;
+            line-height:1.7;
+        }
+        .article-content pre code{
+            background:transparent;
+            color:inherit;
+            padding:0;
+            display:inline;
+            border-radius:0;
+        }
+
+        /* --- images / media --- */
+        .article-content img{
+            display:block;
+            max-width:100%;
+            height:auto;
+            margin:1.75rem auto;
+            border-radius:16px;
+            box-shadow:0 12px 32px -14px rgba(17,19,43,.28);
+        }
+        .article-content figure{ margin:1.75rem 0; }
+        .article-content figcaption{
+            text-align:center;
+            font-size:.8rem;
+            color:var(--muted-2);
+            margin-top:.6rem;
+        }
+        .article-content iframe,
+        .article-content video{
+            max-width:100%;
+            margin:1.75rem 0;
+            border-radius:16px;
+        }
+
+        /* --- tables --- */
+        .article-content table{
+            width:100%;
+            margin:1.75rem 0;
+            border-collapse:collapse;
+            font-size:.95rem;
+            border:1px solid var(--border);
+            border-radius:12px;
+            overflow:hidden;
+        }
+        .article-content th,
+        .article-content td{
+            border:1px solid var(--border);
+            padding:.7rem 1rem;
+            text-align:start;
+        }
+        .article-content thead th{
+            background:var(--bg-soft);
+            color:var(--ink);
+            font-weight:700;
+        }
+        .article-content tbody tr:nth-child(even){ background:#FAFAFD; }
+
+        /* --- emphasis --- */
+        .article-content strong{ font-weight:800; color:var(--ink); }
+        .article-content em{ font-style:italic; }
+        .article-content mark{ background:#FFF3B0; padding:0 .2em; border-radius:4px; }
+
+        /* --- divider --- */
+        .article-content hr{
+            border:0;
+            border-top:1px solid var(--border);
+            margin:2.25rem 0;
+        }
+    </style>
 @endsection
