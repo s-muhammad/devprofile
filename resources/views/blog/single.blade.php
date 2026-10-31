@@ -125,7 +125,7 @@
                 </section>
             </article>
 
-            <aside class="lg:col-span-4 space-y-10">
+            <aside class="lg:col-span-4 space-y-10 lg:sticky lg:top-[92px] lg:self-start">
 
                 <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-100">
                     <h4 class="font-bold text-lg mb-4 pb-2 border-b-2 border-indigo-500 w-fit">درباره نویسنده</h4>
