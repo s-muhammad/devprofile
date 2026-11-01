@@ -313,7 +313,7 @@
 
                 <div class="relative grid gap-8 p-6 sm:p-9 md:p-12 lg:grid-cols-[1.05fr_.95fr] lg:gap-12 lg:items-center">
                     {{-- copy + CTA --}}
-                    <div class="text-center lg:text-right">
+                    <div class="min-w-0 text-center lg:text-right">
                         <span class="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-3.5 py-1.5 text-[11px] font-bold text-white/90 backdrop-blur">
                             <span class="relative flex h-2 w-2">
                                 <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75"></span>
@@ -324,7 +324,7 @@
 
                         <h2 class="mt-5 text-2xl font-extrabold leading-snug text-white text-balance sm:text-3xl md:text-[2.35rem]">
                             ایده‌ات را بگو،
-                            <span class="whitespace-nowrap bg-gradient-to-l from-sky-300 via-brand-200 to-white bg-clip-text text-transparent">با هم می‌سازیمش</span>
+                            <span class="block bg-gradient-to-l from-sky-300 via-brand-200 to-white bg-clip-text text-transparent sm:inline-block">با هم می‌سازیمش</span>
                         </h2>
                         <p class="mx-auto mt-4 max-w-md text-sm leading-7 text-white/60 lg:mx-0">
                             برای مشاوره و شروع پروژه کافیست تماس بگیرید؛ معمولاً کمتر از یک روز کاری پاسخ می‌دهم.
@@ -367,7 +367,7 @@
                     </div>
 
                     {{-- contact info --}}
-                    <div class="mx-auto w-full max-w-md space-y-3 lg:mx-0 lg:max-w-none">
+                    <div class="mx-auto w-full min-w-0 max-w-md space-y-3 lg:mx-0 lg:max-w-none">
                         @if ($phone)
                             <a href="tel:{{ $phone }}"
                                class="group flex items-center gap-4 rounded-2xl border border-white/10 bg-white/[0.04] p-4 transition hover:border-white/25 hover:bg-white/[0.09]">
@@ -396,7 +396,7 @@
                                 </span>
                                 <span class="min-w-0 flex-1 text-right">
                                     <span class="block text-[11px] text-white/45">ایمیل</span>
-                                    <span class="mt-0.5 block truncate text-sm font-bold text-white" dir="ltr">{{ $email }}</span>
+                                    <span class="mt-0.5 block break-words text-sm font-bold text-white" dir="ltr">{{ $email }}</span>
                                 </span>
                                 <svg class="h-4 w-4 shrink-0 text-white/25 transition group-hover:-translate-x-0.5 group-hover:text-white/70 rtl:rotate-180" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M13 6l6 6-6 6"/>

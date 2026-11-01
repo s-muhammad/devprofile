@@ -20,9 +20,10 @@
     <meta name="author" content="{{ setting('seo_meta_author') }}">
     <meta name="keywords" content="{{ setting('seo_meta_keywords') }}">
     <meta property="og:image" content="{{ setting('seo_og_image') }}">
-    @if (setting('site_favicon'))
-        <link rel="icon" href="{{ setting('site_favicon') }}">
-    @endif
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
     <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@100;400;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     @vite(['resources/js/app.js','resources/css/app.css'])
@@ -229,9 +230,6 @@
                     DevProfile
                 </a>
                 <p class="mt-2 text-xs">طراحی سایت • سئو • توسعه وب</p>
-                @if (setting('site_email'))
-                    <a href="mailto:{{ setting('site_email') }}" class="mt-2 inline-block text-xs hover:text-white transition-colors" dir="ltr">{{ setting('site_email') }}</a>
-                @endif
             </div>
 
             <nav class="flex flex-wrap justify-center gap-x-6 gap-y-3 text-xs">
