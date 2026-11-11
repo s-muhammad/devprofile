@@ -66,7 +66,7 @@
         ], fn ($social) => filled($social['href'])));
 
         $fallbackProjects = [
-            ['title' => 'سایت شخصی‌ارزومه', 'description' => 'طراحی سایت رزومه و معرفی مهارت‌ها', 'tag' => 'طراحی سایت', 'gradient' => 'from-purple-900 to-fuchsia-600'],
+            ['title' => 'سایت شخصی و رزومه', 'description' => 'طراحی سایت رزومه و معرفی مهارت‌ها', 'tag' => 'طراحی سایت', 'gradient' => 'from-purple-900 to-fuchsia-600'],
             ['title' => 'پروژه سئو فروشگاهی', 'description' => 'افزایش رتبه در گوگل و رشد ترافیک ارگانیک', 'tag' => 'سئو', 'gradient' => 'from-slate-100 to-indigo-100'],
             ['title' => 'سایت شرکتی صنعتی', 'description' => 'طراحی و توسعه سایت شرکتی با پنل مدیریت', 'tag' => 'طراحی سایت', 'gradient' => 'from-slate-900 to-slate-700'],
         ];
@@ -81,13 +81,13 @@
     {{-- ============ HERO ============ --}}
     <section id="home" class="relative overflow-hidden bg-gradient-to-b from-brand-50/60 to-white">
         <div class="max-w-6xl mx-auto px-4 py-12 md:py-24 grid md:grid-cols-2 gap-10 md:gap-12 items-center">
-            <div class="reveal">
+            <div>
                 <span class="inline-block text-xs bg-brand-50 text-brand-600 rounded-md px-3 py-1 mb-5">طراحی سایت، سئو و توسعه وب</span>
                 <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold leading-snug text-slate-900">
-                    سایتی حرفه‌ای،<br>
-                    با طراحی مدرن و <span class="text-brand-600">سئوی اصولی</span>
+                    طراحی سایت حرفه‌ای،<br>
+                    با ظاهری مدرن و <span class="text-brand-600">سئوی اصولی</span>
                 </h1>
-                <p class="mt-5 text-sm sm:text-base text-slate-500 leading-8 max-w-md">
+                <p class="mt-5 text-sm sm:text-base text-slate-600 leading-8 max-w-md">
                     با تجربه طراحی سایت و سئو، به شما کمک می‌کنم تا کسب‌وکار آنلاین خود را به بهترین شکل راه‌اندازی کنید و در گوگل دیده شوید.
                 </p>
                 <div class="mt-8 flex flex-col sm:flex-row flex-wrap gap-3">
@@ -100,7 +100,7 @@
                         <svg class="w-4 h-4 rotate-180" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
                     </a>
                 </div>
-                <div class="mt-8 flex flex-wrap gap-2.5 text-xs text-slate-500">
+                <div class="mt-8 flex flex-wrap gap-2.5 text-xs text-slate-600">
                     <span class="flex items-center gap-2 bg-white border border-slate-100 rounded-xl px-3.5 py-2.5">⏱ تحویل به موقع</span>
                     <span class="flex items-center gap-2 bg-white border border-slate-100 rounded-xl px-3.5 py-2.5">🎧 پشتیبانی واقعی</span>
                     <span class="flex items-center gap-2 bg-white border border-slate-100 rounded-xl px-3.5 py-2.5">🛡 قیمت منصفانه</span>
@@ -108,11 +108,11 @@
             </div>
 
             {{-- Hero visual --}}
-            <div class="hidden lg:grid reveal relative h-64 sm:h-72 md:h-96" style="transition-delay: 120ms">
-                <img src="/Hero-Mockup.png" alt="">
+            <div class="hidden lg:grid relative h-64 sm:h-72 md:h-96">
+                <img src="/Hero-Mockup.png" alt="نمونه سایت ریسپانسیو و بهینه‌شده برای سئو روی لپ‌تاپ و موبایل" fetchpriority="high" decoding="async">
                 <div class="absolute top-0 left-0 sm:left-4 bg-white rounded-xl shadow-xl px-3 py-2 sm:px-4 sm:py-3 text-[11px] sm:text-xs flex items-center gap-2">
                     <span class="text-green-500 text-base sm:text-lg">↗</span>
-                    <div><b class="block">SEO</b><span class="text-slate-400">رتبه بهتر در گوگل</span></div>
+                    <div><b class="block">SEO</b><span class="text-slate-500">رتبه بهتر در گوگل</span></div>
                 </div>
                 <div class="absolute bottom-0 right-0 sm:right-4 bg-white rounded-xl shadow-xl px-3 py-2 sm:px-4 sm:py-3 text-[11px] sm:text-xs flex items-center gap-2">
                     <span class="font-bold">+۵۰</span> پروژه‌های موفق
@@ -126,31 +126,31 @@
         <div class="max-w-6xl mx-auto px-4 text-center">
             <span class="reveal inline-block text-xs bg-brand-50 text-brand-600 rounded-md px-3 py-1">خدمات ما</span>
             <h2 class="reveal mt-4 text-xl sm:text-2xl md:text-3xl font-extrabold" style="transition-delay: 60ms">راهکارهای کامل برای حضور حرفه‌ای در وب</h2>
-            <p class="reveal mt-3 text-xs sm:text-sm text-slate-400" style="transition-delay: 120ms">از طراحی سایت گرفته تا سئو و بهینه‌سازی، همه چیز برای رشد کسب‌وکار شما.</p>
+            <p class="reveal mt-3 text-xs sm:text-sm text-slate-500" style="transition-delay: 120ms">از طراحی سایت گرفته تا سئو و بهینه‌سازی، همه چیز برای رشد کسب‌وکار شما.</p>
 
             <div class="mt-8 md:mt-10 grid grid-cols-2 lg:grid-cols-4 gap-4 text-right">
                 <div class="reveal rounded-2xl border border-rose-100 bg-rose-50/50 p-5" style="transition-delay: 60ms">
                     <div class="w-10 h-10 rounded-xl bg-rose-100 grid place-items-center text-rose-500">▤</div>
                     <h3 class="mt-4 font-bold text-sm">مدیریت محتوا</h3>
-                    <p class="mt-2 text-xs text-slate-400 leading-6">راه‌اندازی و مدیریت سیستم مدیریت محتوای سایت شما.</p>
+                    <p class="mt-2 text-xs text-slate-500 leading-6">راه‌اندازی و مدیریت سیستم مدیریت محتوای سایت شما.</p>
                     <span class="mt-4 w-8 h-8 rounded-full border border-rose-200 text-rose-500 grid place-items-center">←</span>
                 </div>
                 <div class="reveal rounded-2xl border border-sky-100 bg-sky-50/50 p-5" style="transition-delay: 180ms">
                     <div class="w-10 h-10 rounded-xl bg-sky-100 grid place-items-center text-sky-500">☁</div>
                     <h3 class="mt-4 font-bold text-sm">توسعه وب</h3>
-                    <p class="mt-2 text-xs text-slate-400 leading-6">توسعه اختصاصی و شخصی‌سازی برنامه‌های وب.</p>
+                    <p class="mt-2 text-xs text-slate-500 leading-6">توسعه اختصاصی و شخصی‌سازی برنامه‌های وب.</p>
                     <span class="mt-4 w-8 h-8 rounded-full border border-sky-200 text-sky-500 grid place-items-center">←</span>
                 </div>
                 <div class="reveal rounded-2xl border border-indigo-100 bg-indigo-50/50 p-5" style="transition-delay: 240ms">
                     <div class="w-10 h-10 rounded-xl bg-indigo-100 grid place-items-center text-indigo-500">&lt;/&gt;</div>
                     <h3 class="mt-4 font-bold text-sm">طراحی سایت</h3>
-                    <p class="mt-2 text-xs text-slate-400 leading-6">طراحی سایت‌های مدرن، سریع و کاملاً اختصاصی.</p>
+                    <p class="mt-2 text-xs text-slate-500 leading-6">طراحی سایت‌های مدرن، سریع و کاملاً اختصاصی.</p>
                     <span class="mt-4 w-8 h-8 rounded-full border border-indigo-200 text-indigo-500 grid place-items-center">←</span>
                 </div>
                 <div class="reveal rounded-2xl border border-emerald-100 bg-emerald-50/50 p-5" style="transition-delay: 300ms">
                     <div class="w-10 h-10 rounded-xl bg-emerald-100 grid place-items-center text-emerald-500">⌕</div>
                     <h3 class="mt-4 font-bold text-sm">سئو</h3>
-                    <p class="mt-2 text-xs text-slate-400 leading-6">بهینه‌سازی سایت برای رتبه‌های بالاتر در گوگل.</p>
+                    <p class="mt-2 text-xs text-slate-500 leading-6">بهینه‌سازی سایت برای رتبه‌های بالاتر در گوگل.</p>
                     <span class="mt-4 w-8 h-8 rounded-full border border-emerald-200 text-emerald-500 grid place-items-center">←</span>
                 </div>
             </div>
@@ -163,14 +163,18 @@
             <div class="reveal">
                 <span class="text-xs bg-brand-50 text-brand-600 rounded-md px-3 py-1">نمونه‌کارهای ما</span>
                 <h2 class="mt-4 text-xl sm:text-2xl font-extrabold">پروژه‌های اخیر</h2>
-                <p class="mt-3 text-sm text-slate-400 leading-7">برخی از نمونه‌کارهای انجام شده در زمینه طراحی سایت، سئو و توسعه وب را مشاهده کنید.</p>
+                <p class="mt-3 text-sm text-slate-500 leading-7">برخی از نمونه‌کارهای انجام شده در زمینه طراحی سایت، سئو و توسعه وب را مشاهده کنید.</p>
+                <a href="#contact" class="mt-5 inline-flex items-center gap-2 bg-brand-600 hover:bg-brand-700 text-white text-sm font-medium rounded-xl px-5 py-2.5 transition">
+                    پروژه‌ات را شروع کنیم
+                    <svg class="w-4 h-4 rotate-180" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+                </a>
             </div>
             <div class="grid sm:grid-cols-3 gap-4">
                 @forelse ($projects as $project)
                     <article class="reveal bg-white rounded-2xl p-3 shadow-sm" style="transition-delay: {{ $loop->index * 90 }}ms">
                         <div class="relative h-36 rounded-xl overflow-hidden bg-gradient-to-br from-slate-100 to-indigo-100">
                             @if ($project->image)
-                                <img src="{{ asset($project->image) }}" alt="{{ $project->title }}" class="w-full h-full object-cover">
+                                <img src="{{ asset($project->image) }}" alt="نمونه‌کار {{ $project->title }}" loading="lazy" decoding="async" class="w-full h-full object-cover">
                             @endif
                             <span class="absolute bottom-2 right-2 text-[10px] bg-white text-brand-600 rounded px-2 py-0.5">پروژه</span>
                         </div>
@@ -181,7 +185,7 @@
                                 {{ $project->title }}
                             @endif
                         </h3>
-                        <p class="text-xs text-slate-400 mt-1 line-clamp-2">{{ $project->description }}</p>
+                        <p class="text-xs text-slate-500 mt-1 line-clamp-2">{{ $project->description }}</p>
                     </article>
                 @empty
                     @foreach ($fallbackProjects as $project)
@@ -190,7 +194,7 @@
                                 <span class="absolute bottom-2 right-2 text-[10px] bg-white text-brand-600 rounded px-2 py-0.5">{{ $project['tag'] }}</span>
                             </div>
                             <h3 class="mt-3 text-sm font-bold">{{ $project['title'] }}</h3>
-                            <p class="text-xs text-slate-400 mt-1">{{ $project['description'] }}</p>
+                            <p class="text-xs text-slate-500 mt-1">{{ $project['description'] }}</p>
                         </article>
                     @endforeach
                 @endforelse
@@ -203,18 +207,18 @@
         <div class="max-w-6xl mx-auto px-4">
             <div class="reveal rounded-3xl bg-slate-50 p-6 sm:p-8 grid lg:grid-cols-3 gap-8 items-center">
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 order-3 lg:order-none">
-                    <div class="flex gap-3"><span class="w-9 h-9 shrink-0 rounded-full bg-brand-50 text-brand-600 grid place-items-center">★</span><div><h4 class="text-sm font-bold">تجربه کاری بالا</h4><p class="text-xs text-slate-400 mt-1 leading-6">سال‌ها تجربه در طراحی سایت و سئو.</p></div></div>
-                    <div class="flex gap-3"><span class="w-9 h-9 shrink-0 rounded-full bg-brand-50 text-brand-600 grid place-items-center">⚡</span><div><h4 class="text-sm font-bold">تسلط بر ابزارهای مدرن</h4><p class="text-xs text-slate-400 mt-1 leading-6">استفاده از جدیدترین تکنولوژی‌ها.</p></div></div>
-                    <div class="flex gap-3"><span class="w-9 h-9 shrink-0 rounded-full bg-brand-50 text-brand-600 grid place-items-center">🎧</span><div><h4 class="text-sm font-bold">پشتیبانی واقعی</h4><p class="text-xs text-slate-400 mt-1 leading-6">پاسخگویی سریع و همراهی حتی بعد از تحویل.</p></div></div>
-                    <div class="flex gap-3"><span class="w-9 h-9 shrink-0 rounded-full bg-brand-50 text-brand-600 grid place-items-center">↗</span><div><h4 class="text-sm font-bold">رعایت اصول سئو</h4><p class="text-xs text-slate-400 mt-1 leading-6">سایت‌های بهینه و آماده رشد در گوگل.</p></div></div>
+                    <div class="flex gap-3"><span class="w-9 h-9 shrink-0 rounded-full bg-brand-50 text-brand-600 grid place-items-center">★</span><div><h3 class="text-sm font-bold">تجربه کاری بالا</h3><p class="text-xs text-slate-500 mt-1 leading-6">سال‌ها تجربه در طراحی سایت و سئو.</p></div></div>
+                    <div class="flex gap-3"><span class="w-9 h-9 shrink-0 rounded-full bg-brand-50 text-brand-600 grid place-items-center">⚡</span><div><h3 class="text-sm font-bold">تسلط بر ابزارهای مدرن</h3><p class="text-xs text-slate-500 mt-1 leading-6">استفاده از جدیدترین تکنولوژی‌ها.</p></div></div>
+                    <div class="flex gap-3"><span class="w-9 h-9 shrink-0 rounded-full bg-brand-50 text-brand-600 grid place-items-center">🎧</span><div><h3 class="text-sm font-bold">پشتیبانی واقعی</h3><p class="text-xs text-slate-500 mt-1 leading-6">پاسخگویی سریع و همراهی حتی بعد از تحویل.</p></div></div>
+                    <div class="flex gap-3"><span class="w-9 h-9 shrink-0 rounded-full bg-brand-50 text-brand-600 grid place-items-center">↗</span><div><h3 class="text-sm font-bold">رعایت اصول سئو</h3><p class="text-xs text-slate-500 mt-1 leading-6">سایت‌های بهینه و آماده رشد در گوگل.</p></div></div>
                 </div>
                 <div>
                     <span class="text-xs bg-white text-brand-600 border border-slate-100 rounded-md px-3 py-1">چرا من؟</span>
                     <h2 class="mt-4 text-xl sm:text-2xl font-extrabold">تجربه، تخصص، تعهد</h2>
-                    <p class="mt-3 text-sm text-slate-400 leading-7">با تمرکز بر کیفیت، تجربه کاربری و سئو، پروژه‌های شما را با دقت، سرعت و تعهد کامل انجام می‌دهم.</p>
+                    <p class="mt-3 text-sm text-slate-500 leading-7">با تمرکز بر کیفیت، تجربه کاربری و سئو، پروژه‌های شما را با دقت، سرعت و تعهد کامل انجام می‌دهم.</p>
                 </div>
                 <div class="hidden lg:grid place-items-center h-48 rounded-2xl bg-gradient-to-br from-brand-100 to-white text-6xl">
-                    <img src="/developer.png" alt="">
+                    <img src="/developer.png" alt="توسعه‌دهنده وب در حال کدنویسی" loading="lazy" decoding="async">
                 </div>
             </div>
         </div>
@@ -226,13 +230,13 @@
             <div class="reveal">
                 <span class="text-xs text-brand-600">فرآیند کار</span>
                 <h2 class="mt-2 text-lg sm:text-xl font-extrabold">از ایده تا اجرا، در چند قدم ساده</h2>
-                <p class="mt-3 text-sm text-slate-400 leading-7">با یک برنامه‌ریزی دقیق، پروژه شما بدون دردسر و در زمان توافق‌شده تحویل داده می‌شود.</p>
+                <p class="mt-3 text-sm text-slate-500 leading-7">با یک برنامه‌ریزی دقیق، پروژه شما بدون دردسر و در زمان توافق‌شده تحویل داده می‌شود.</p>
             </div>
             <ol class="grid grid-cols-2 lg:grid-cols-4 gap-4">
-                <li class="reveal bg-white rounded-2xl p-5 shadow-sm" style="transition-delay: 60ms"><div class="w-10 h-10 rounded-full bg-brand-50 text-brand-600 grid place-items-center">💬</div><h3 class="mt-3 text-sm font-bold">مشاوره و بررسی نیازها</h3><p class="mt-1 text-xs text-slate-400 leading-6">بررسی دقیق نیازها و ارائه بهترین راهکار.</p></li>
-                <li class="reveal bg-white rounded-2xl p-5 shadow-sm" style="transition-delay: 120ms"><div class="w-10 h-10 rounded-full bg-brand-50 text-brand-600 grid place-items-center">&lt;/&gt;</div><h3 class="mt-3 text-sm font-bold">طراحی و توسعه</h3><p class="mt-1 text-xs text-slate-400 leading-6">شروع طراحی و توسعه با گزارش روند کار.</p></li>
-                <li class="reveal bg-white rounded-2xl p-5 shadow-sm" style="transition-delay: 180ms"><div class="w-10 h-10 rounded-full bg-emerald-50 text-emerald-600 grid place-items-center">✓</div><h3 class="mt-3 text-sm font-bold">تست و بررسی نهایی</h3><p class="mt-1 text-xs text-slate-400 leading-6">اطمینان از کیفیت، سرعت و سئو.</p></li>
-                <li class="reveal bg-white rounded-2xl p-5 shadow-sm" style="transition-delay: 240ms"><div class="w-10 h-10 rounded-full bg-brand-50 text-brand-600 grid place-items-center">🚀</div><h3 class="mt-3 text-sm font-bold">تحویل و پشتیبانی</h3><p class="mt-1 text-xs text-slate-400 leading-6">تحویل پروژه و پشتیبانی پس از اجرا.</p></li>
+                <li class="reveal bg-white rounded-2xl p-5 shadow-sm" style="transition-delay: 60ms"><div class="w-10 h-10 rounded-full bg-brand-50 text-brand-600 grid place-items-center">💬</div><h3 class="mt-3 text-sm font-bold">مشاوره و بررسی نیازها</h3><p class="mt-1 text-xs text-slate-500 leading-6">بررسی دقیق نیازها و ارائه بهترین راهکار.</p></li>
+                <li class="reveal bg-white rounded-2xl p-5 shadow-sm" style="transition-delay: 120ms"><div class="w-10 h-10 rounded-full bg-brand-50 text-brand-600 grid place-items-center">&lt;/&gt;</div><h3 class="mt-3 text-sm font-bold">طراحی و توسعه</h3><p class="mt-1 text-xs text-slate-500 leading-6">شروع طراحی و توسعه با گزارش روند کار.</p></li>
+                <li class="reveal bg-white rounded-2xl p-5 shadow-sm" style="transition-delay: 180ms"><div class="w-10 h-10 rounded-full bg-emerald-50 text-emerald-600 grid place-items-center">✓</div><h3 class="mt-3 text-sm font-bold">تست و بررسی نهایی</h3><p class="mt-1 text-xs text-slate-500 leading-6">اطمینان از کیفیت، سرعت و سئو.</p></li>
+                <li class="reveal bg-white rounded-2xl p-5 shadow-sm" style="transition-delay: 240ms"><div class="w-10 h-10 rounded-full bg-brand-50 text-brand-600 grid place-items-center">🚀</div><h3 class="mt-3 text-sm font-bold">تحویل و پشتیبانی</h3><p class="mt-1 text-xs text-slate-500 leading-6">تحویل پروژه و پشتیبانی پس از اجرا.</p></li>
             </ol>
         </div>
     </section>
@@ -242,28 +246,28 @@
         <div class="max-w-6xl mx-auto px-4 grid lg:grid-cols-[2.5fr_1fr] gap-8 md:gap-10 items-center">
             <div class="grid sm:grid-cols-3 gap-4 order-2 lg:order-1">
                 <figure class="reveal rounded-2xl border border-slate-100 p-5 shadow-sm" style="transition-delay: 60ms">
-                    <blockquote class="text-xs text-slate-500 leading-6">سایت ما با کمک شما رشد داشته و در گوگل رتبه خوبی می‌گیرد.</blockquote>
-                    <figcaption class="mt-4 flex items-center gap-3"><span class="w-9 h-9 rounded-full bg-slate-200"></span><div><b class="text-xs block">محمد رضایی</b><span class="text-[10px] text-slate-400">مدیر استارتاپ</span></div></figcaption>
+                    <blockquote class="text-xs text-slate-600 leading-6">سایت ما با کمک شما رشد داشته و در گوگل رتبه خوبی می‌گیرد.</blockquote>
+                    <figcaption class="mt-4 flex items-center gap-3"><span class="w-9 h-9 rounded-full bg-slate-200"></span><div><b class="text-xs block">محمد رضایی</b><span class="text-[10px] text-slate-500">مدیر استارتاپ</span></div></figcaption>
                 </figure>
                 <figure class="reveal rounded-2xl border border-slate-100 p-5 shadow-sm" style="transition-delay: 120ms">
-                    <blockquote class="text-xs text-slate-500 leading-6">تخصص و پشتیبانی عالی، پیشنهاد می‌کنم.</blockquote>
-                    <figcaption class="mt-4 flex items-center gap-3"><span class="w-9 h-9 rounded-full bg-slate-200"></span><div><b class="text-xs block">سارا احمدی</b><span class="text-[10px] text-slate-400">بیزینس کوچ</span></div></figcaption>
+                    <blockquote class="text-xs text-slate-600 leading-6">تخصص و پشتیبانی عالی، پیشنهاد می‌کنم.</blockquote>
+                    <figcaption class="mt-4 flex items-center gap-3"><span class="w-9 h-9 rounded-full bg-slate-200"></span><div><b class="text-xs block">سارا احمدی</b><span class="text-[10px] text-slate-500">بیزینس کوچ</span></div></figcaption>
                 </figure>
                 <figure class="reveal rounded-2xl border border-slate-100 p-5 shadow-sm" style="transition-delay: 180ms">
-                    <blockquote class="text-xs text-slate-500 leading-6">کاری حرفه‌ای، دقیق و با کیفیت. کاملاً راضی هستم.</blockquote>
-                    <figcaption class="mt-4 flex items-center gap-3"><span class="w-9 h-9 rounded-full bg-slate-200"></span><div><b class="text-xs block">علی محمدی</b><span class="text-[10px] text-slate-400">مدیر فروشگاه آنلاین</span></div></figcaption>
+                    <blockquote class="text-xs text-slate-600 leading-6">کاری حرفه‌ای، دقیق و با کیفیت. کاملاً راضی هستم.</blockquote>
+                    <figcaption class="mt-4 flex items-center gap-3"><span class="w-9 h-9 rounded-full bg-slate-200"></span><div><b class="text-xs block">علی محمدی</b><span class="text-[10px] text-slate-500">مدیر فروشگاه آنلاین</span></div></figcaption>
                 </figure>
             </div>
             <div class="reveal order-1 lg:order-2">
                 <span class="text-xs text-brand-600">نظرات شما</span>
                 <h2 class="mt-2 text-lg sm:text-xl font-extrabold">اعتماد شما، بزرگ‌ترین انگیزه ماست</h2>
-                <p class="mt-2 text-sm text-slate-400">رضایت مشتریان، بهترین گواه کیفیت کار ماست.</p>
+                <p class="mt-2 text-sm text-slate-500">رضایت مشتریان، بهترین گواه کیفیت کار ماست.</p>
             </div>
         </div>
     </section> --}}
 
     {{-- ============ BLOG ============ --}}
-    <section id="blog" class="pb-12 md:pb-16">
+    <section id="blog" class="py-12 md:pb-16">
         <div class="max-w-6xl mx-auto px-4">
             <div class="reveal flex flex-col sm:flex-row sm:items-end justify-between gap-3">
                 <div>
@@ -278,13 +282,13 @@
                         <a href="{{ $blog->routeUrl() }}" class="block group">
                             <div class="relative h-32 bg-gradient-to-br from-slate-900 to-brand-700">
                                 @if ($blog->image)
-                                    <img src="{{ asset($blog->image) }}" alt="{{ $blog->title }}" class="w-full h-full object-cover transition duration-500 group-hover:scale-105">
+                                    <img src="{{ asset($blog->image) }}" alt="{{ $blog->title }}" loading="lazy" decoding="async" class="w-full h-full object-cover transition duration-500 group-hover:scale-105">
                                 @endif
                                 <span class="absolute bottom-2 left-2 text-[10px] bg-white text-brand-600 rounded px-2 py-0.5">مقاله</span>
                             </div>
                             <div class="p-4">
                                 <h3 class="text-xs font-bold leading-6 line-clamp-2 group-hover:text-brand-600 transition">{{ $blog->title }}</h3>
-                                <time class="text-[10px] text-slate-400">{{ jalali_date($blog->created_at) }}</time>
+                                <time class="text-[10px] text-slate-500">{{ jalali_date($blog->created_at) }}</time>
                             </div>
                         </a>
                     </article>
@@ -294,12 +298,53 @@
                             <div class="relative h-32 bg-gradient-to-br {{ $blog['gradient'] }}">
                                 <span class="absolute bottom-2 left-2 text-[10px] bg-white text-brand-600 rounded px-2 py-0.5">مقاله</span>
                             </div>
-                            <div class="p-4"><h3 class="text-xs font-bold leading-6">{{ $blog['title'] }}</h3><time class="text-[10px] text-slate-400">{{ $blog['date'] }}</time></div>
+                            <div class="p-4"><h3 class="text-xs font-bold leading-6">{{ $blog['title'] }}</h3><time class="text-[10px] text-slate-500">{{ $blog['date'] }}</time></div>
                         </article>
                     @endforeach
                 @endforelse
             </div>
         </div>
+    </section>
+
+    {{-- ============ FAQ ============ --}}
+    @php
+        $faqs = [
+            ['q' => 'هزینه طراحی سایت چقدر است؟', 'a' => 'هزینه به نوع سایت، تعداد صفحات، امکانات اختصاصی و میزان سئوی موردنیاز بستگی دارد. بعد از بررسی نیازهای شما، برآورد دقیق هزینه و زمان ارائه می‌شود.'],
+            ['q' => 'طراحی سایت چقدر زمان می‌برد؟', 'a' => 'زمان تحویل به پیچیدگی پروژه بستگی دارد و بعد از مشاوره اولیه، یک زمان‌بندی مشخص و توافق‌شده به شما اعلام می‌شود.'],
+            ['q' => 'آیا سایت برای سئو بهینه تحویل داده می‌شود؟', 'a' => 'بله. ساختار هدینگ‌ها، سرعت بارگذاری، تگ‌های عنوان و توضیحات، نقشه سایت و ریسپانسیو بودن از ابتدا در طراحی رعایت می‌شود.'],
+            ['q' => 'آیا بعد از تحویل پروژه پشتیبانی دارید؟', 'a' => 'بله، پشتیبانی بعد از تحویل شامل رفع مشکلات احتمالی و راهنمایی برای مدیریت سایت است.'],
+            ['q' => 'آیا می‌توانم محتوای سایت را خودم مدیریت کنم؟', 'a' => 'بله. سایت همراه با پنل مدیریت تحویل داده می‌شود تا بتوانید مطالب، تصاویر و صفحات را بدون دانش برنامه‌نویسی ویرایش کنید.'],
+        ];
+
+        $faqSchema = [
+            '@context' => 'https://schema.org',
+            '@type' => 'FAQPage',
+            'mainEntity' => array_map(fn ($f) => [
+                '@type' => 'Question',
+                'name' => $f['q'],
+                'acceptedAnswer' => ['@type' => 'Answer', 'text' => $f['a']],
+            ], $faqs),
+        ];
+    @endphp
+    <section id="faq" class="pb-12 md:pb-16">
+        <div class="max-w-3xl mx-auto px-4">
+            <div class="reveal text-center">
+                <span class="text-xs text-brand-600">سؤالات متداول</span>
+                <h2 class="mt-2 text-lg sm:text-xl font-extrabold">پاسخ به پرسش‌های رایج درباره طراحی سایت و سئو</h2>
+            </div>
+            <div class="mt-6 md:mt-8 space-y-3">
+                @foreach ($faqs as $faq)
+                    <details class="reveal group rounded-2xl border border-slate-100 bg-white px-5 py-4 shadow-sm">
+                        <summary class="flex cursor-pointer list-none items-center justify-between gap-3 text-sm font-bold text-slate-900">
+                            <h3 class="text-sm font-bold">{{ $faq['q'] }}</h3>
+                            <span class="text-brand-600 transition group-open:rotate-45 text-lg leading-none">+</span>
+                        </summary>
+                        <p class="mt-3 text-sm leading-7 text-slate-600">{{ $faq['a'] }}</p>
+                    </details>
+                @endforeach
+            </div>
+        </div>
+        <script type="application/ld+json">{!! json_encode($faqSchema, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) !!}</script>
     </section>
 
     {{-- ============ CONTACT ============ --}}
