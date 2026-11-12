@@ -38,6 +38,7 @@ class ProjectsController extends Controller
             'image' => 'required',
             'url' => 'nullable',
             'is_featured' => 'nullable',
+            'is_active' => 'nullable|boolean',
         ]);
         $image = $this->uploader($request->file('image'));
         if ($request->has('is_featured') && $request->is_featured == 1) {
@@ -48,7 +49,8 @@ class ProjectsController extends Controller
             'description' => $request['description'],
             'image' => $image,
             'url' => $request['url'],
-            'is_featured' => $request['is_featured'],
+            'is_featured' => $request['is_featured'] ?? 0,
+            'is_active' => $request->has('is_active') ? $request->boolean('is_active') : true,
         ]);
         return redirect()->route('admin.projects.index');
     }
@@ -80,6 +82,7 @@ class ProjectsController extends Controller
             'image' => 'nullable',
             'url' => 'nullable',
             'is_featured' => 'nullable|boolean', // اضافه کردن boolean validation
+            'is_active' => 'nullable|boolean',
         ]);
 
         $image = $project->image;
@@ -106,9 +109,24 @@ class ProjectsController extends Controller
             'image' => $image,
             'url' => $data['url'],
             'is_featured' => $isFeatured ? 1 : 0,
+            'is_active' => $request->has('is_active') ? $request->boolean('is_active') : $project->is_active,
         ]);
 
         return redirect()->route('admin.projects.index')->with('success', 'پروژه با موفقیت بروزرسانی شد.');
+    }
+
+    /**
+     * Toggle the active/inactive status of the project.
+     */
+    public function toggleActive(Projects $project)
+    {
+        $project->update(['is_active' => ! $project->is_active]);
+
+        $message = $project->is_active
+            ? 'پروژه فعال شد و در سایت نمایش داده می‌شود.'
+            : 'پروژه غیرفعال شد و از سایت پنهان می‌شود.';
+
+        return back()->with('success', $message);
     }
 
     /**

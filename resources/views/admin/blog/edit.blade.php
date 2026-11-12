@@ -52,6 +52,16 @@
                               placeholder="محتوای اصلی مقاله را وارد کنید" required>{{ $blog->description }}</textarea>
                 </div>
                 <div class="mb-6">
+                    <label for="status" class="block text-gray-700 text-sm font-semibold mb-2">وضعیت انتشار</label>
+                    <select id="status" name="status"
+                            class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors duration-200">
+                        @foreach(\App\Models\Blog::STATUSES as $value => $label)
+                            <option value="{{ $value }}" @selected(old('status', $blog->status) === $value)>{{ $label }}</option>
+                        @endforeach
+                    </select>
+                    <p class="text-xs text-gray-400 mt-1">مقاله‌های پیش‌نویس در سایت نمایش داده نمی‌شوند.</p>
+                </div>
+                <div class="mb-6">
                     <label for="image" class="block text-gray-700 text-sm font-semibold mb-2">تصویر مقاله</label>
                     <div class="flex items-center">
                         <label class="cursor-pointer bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg

@@ -22,7 +22,9 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
     Route::get('/', [DashboardController::class, 'index']);
     Route::resource('user', UserController::class);
     Route::resource('blog', BlogController::class);
+    Route::patch('blog/{blog}/status', [BlogController::class, 'updateStatus'])->name('blog.status');
     Route::resource('projects', ProjectsController::class);
+    Route::patch('projects/{project}/toggle-active', [ProjectsController::class, 'toggleActive'])->name('projects.toggleActive');
     Route::resource('comments', CommentsController::class)->only(['index', 'destroy', 'update']);
     Route::get('settings/index', [SettingsController::class, 'index'])->name('settings.index');
     Route::post('settings/update', [SettingsController::class, 'update'])->name('settings.update');

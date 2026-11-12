@@ -2,11 +2,39 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 class Blog extends Model
 {
-    protected $fillable = ['title', 'slug', 'description', 'image', 'summary'];
+    public const STATUS_DRAFT = 'draft';
+
+    public const STATUS_PUBLISHED = 'published';
+
+    public const STATUSES = [
+        self::STATUS_DRAFT => 'پیش‌نویس',
+        self::STATUS_PUBLISHED => 'منتشرشده',
+    ];
+
+    protected $fillable = ['title', 'slug', 'description', 'image', 'summary', 'status'];
+
+    /**
+     * Only articles that are visible on the public site.
+     */
+    public function scopePublished(Builder $query): Builder
+    {
+        return $query->where('status', self::STATUS_PUBLISHED);
+    }
+
+    public function isPublished(): bool
+    {
+        return $this->status === self::STATUS_PUBLISHED;
+    }
+
+    public function statusLabel(): string
+    {
+        return self::STATUSES[$this->status] ?? $this->status;
+    }
 
     /**
      * Resolve a route key by slug first, then by id (for legacy URLs).

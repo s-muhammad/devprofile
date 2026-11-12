@@ -10,21 +10,23 @@
 
     <main class="max-w-7xl mx-auto px-4 pb-20">
 
-        <section class="mb-16">
-            <a href="{{ $header->routeUrl() }}">
-                <div class="relative h-[450px] rounded-3xl overflow-hidden group cursor-pointer shadow-2xl">
-                    <img src="{{ $header->image }}"
-                         class="w-full h-full object-cover transition duration-500 group-hover:scale-105"
-                         alt="Featured">
-                    <div
-                        class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent flex flex-col justify-end p-8 text-white">
-                        <span class="bg-indigo-500 w-fit px-3 py-1 rounded-lg text-sm mb-4">ویژه امروز</span>
-                        <h2 class="text-3xl font-bold mb-2 leading-snug">{{ $header->title }}</h2>
-                        <p class="text-slate-300 max-w-xl">{{ $header->summary }}</p>
+        @if($header)
+            <section class="mb-16">
+                <a href="{{ $header->routeUrl() }}">
+                    <div class="relative h-[450px] rounded-3xl overflow-hidden group cursor-pointer shadow-2xl">
+                        <img src="{{ $header->image }}"
+                             class="w-full h-full object-cover transition duration-500 group-hover:scale-105"
+                             alt="Featured">
+                        <div
+                            class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent flex flex-col justify-end p-8 text-white">
+                            <span class="bg-indigo-500 w-fit px-3 py-1 rounded-lg text-sm mb-4">ویژه امروز</span>
+                            <h2 class="text-3xl font-bold mb-2 leading-snug">{{ $header->title }}</h2>
+                            <p class="text-slate-300 max-w-xl">{{ $header->summary }}</p>
+                        </div>
                     </div>
-                </div>
-            </a>
-        </section>
+                </a>
+            </section>
+        @endif
 
         <div id="blogGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
             @include('blog.partials.card', ['blogs' => $blogs])

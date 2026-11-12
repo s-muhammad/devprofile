@@ -75,6 +75,24 @@
                         <p class="text-xs text-gray-500 mt-1">در صورت انتخاب «بله»، این پروژه به عنوان پست ویژه نمایش داده می‌شود.</p>
                     </div>
 
+                    {{-- وضعیت نمایش پروژه در سایت --}}
+                    <div class="mb-6">
+                        <label class="block text-gray-700 text-sm font-semibold mb-2">وضعیت نمایش در سایت</label>
+                        <div class="flex items-center gap-6">
+                            <label class="flex items-center cursor-pointer">
+                                <input type="radio" name="is_active" value="1" {{ (string) old('is_active', '1') === '1' ? 'checked' : '' }}
+                                class="w-4 h-4 text-green-600 focus:ring-green-500 border-gray-300">
+                                <span class="mr-2 text-gray-700">فعال</span>
+                            </label>
+                            <label class="flex items-center cursor-pointer">
+                                <input type="radio" name="is_active" value="0" {{ (string) old('is_active') === '0' ? 'checked' : '' }}
+                                class="w-4 h-4 text-green-600 focus:ring-green-500 border-gray-300">
+                                <span class="mr-2 text-gray-700">غیرفعال</span>
+                            </label>
+                        </div>
+                        <p class="text-xs text-gray-500 mt-1">فقط پروژه‌های فعال در سایت نمایش داده می‌شوند.</p>
+                    </div>
+
                     <div class="flex justify-between space-x-4 space-x-reverse">
                         <button type="submit" class="bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-8 rounded-full shadow-lg transition-colors duration-200">
                             <i class="fas fa-save ml-2"></i> ذخیره

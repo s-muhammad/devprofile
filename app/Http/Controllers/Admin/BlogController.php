@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 
 class BlogController extends Controller
 {
@@ -40,6 +41,7 @@ class BlogController extends Controller
             'description' => 'required',
             'image' => 'required',
             'summary' => 'required',
+            'status' => ['nullable', Rule::in(array_keys(Blog::STATUSES))],
         ]);
         $image = $this->uploader($request->file('image'));
         Blog::create([
@@ -48,6 +50,7 @@ class BlogController extends Controller
             'description' => $data['description'],
             'image' => $image,
             'summary' => $data['summary'],
+            'status' => $data['status'] ?? Blog::STATUS_PUBLISHED,
         ]);
         return redirect()->route('admin.blog.index');
     }
@@ -79,6 +82,7 @@ class BlogController extends Controller
             'description' => 'required',
             'image' => 'nullable',
             'summary' => 'required',
+            'status' => ['nullable', Rule::in(array_keys(Blog::STATUSES))],
         ]);
         $image = $blog->image;
         if ($request->file('image')) {
@@ -94,8 +98,27 @@ class BlogController extends Controller
             'description' => $data['description'],
             'image' => $image,
             'summary' => $data['summary'],
+            'status' => $data['status'] ?? $blog->status,
         ]);
         return redirect()->route('admin.blog.index');
+    }
+
+    /**
+     * Update the publish status of the article.
+     */
+    public function updateStatus(Request $request, Blog $blog)
+    {
+        $data = $request->validate([
+            'status' => ['required', Rule::in(array_keys(Blog::STATUSES))],
+        ]);
+
+        $blog->update($data);
+
+        $message = $blog->isPublished()
+            ? 'مقاله منتشر شد و در سایت نمایش داده می‌شود.'
+            : 'مقاله به حالت پیش‌نویس ذخیره شد و در سایت نمایش داده نمی‌شود.';
+
+        return back()->with('success', $message);
     }
 
     /**

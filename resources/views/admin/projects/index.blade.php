@@ -34,6 +34,7 @@
                     <th class="py-4 px-4">عنوان </th>
                     <th class="py-4 px-4">متن </th>
                     <th class="py-4 px-4">ویژه</th>
+                    <th class="py-4 px-4 text-center">وضعیت نمایش</th>
                     <th class="py-4 px-4 text-center">تصویر</th>
                     <th class="py-4 px-4 rounded-l-xl text-center">عملیات</th>
                 </tr>
@@ -52,6 +53,22 @@
                             @else
                                 <i class="fas fa-times"></i>
                             @endif
+                        </td>
+                        {{-- دکمه فعال/غیرفعال کردن نمایش پروژه در سایت --}}
+                        <td class="py-4 px-4 text-center">
+                            <form action="{{ route('admin.projects.toggleActive', $project) }}" method="POST">
+                                @csrf
+                                @method('PATCH')
+                                <button type="submit"
+                                        title="{{ $project->is_active ? 'غیرفعال کردن نمایش در سایت' : 'فعال کردن نمایش در سایت' }}"
+                                        class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold transition duration-200
+                                        {{ $project->is_active
+                                            ? 'bg-green-100 text-green-700 hover:bg-green-200'
+                                            : 'bg-gray-200 text-gray-600 hover:bg-gray-300' }}">
+                                    <i class="fas {{ $project->is_active ? 'fa-toggle-on' : 'fa-toggle-off' }} text-base"></i>
+                                    {{ $project->is_active ? 'فعال' : 'غیرفعال' }}
+                                </button>
+                            </form>
                         </td>
                         {{-- نمایش تصویر/آیکون --}}
                         <td class="py-4 px-4 text-center">
@@ -78,7 +95,7 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="6" class="py-12 text-center text-gray-500 text-lg">
+                        <td colspan="7" class="py-12 text-center text-gray-500 text-lg">
                             <i class="fas fa-tools mb-3 text-3xl text-gray-300"></i>
                             <p>هیچ پروژه ای برای نمایش وجود ندارد.</p>
                             <p class="text-sm mt-1">از دکمه بالا برای اضافه کردن اولین پروژه استفاده کنید.</p>

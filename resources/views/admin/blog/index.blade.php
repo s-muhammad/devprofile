@@ -33,6 +33,7 @@
                     <th class="py-4 px-4">عنوان</th>
 {{--                    <th class="py-4 px-4">خلاصه</th>--}}
                     <th class="py-4 px-4 text-center">تصویر</th>
+                    <th class="py-4 px-4 text-center">وضعیت</th>
                     <th class="py-4 px-4">تاریخ ایجاد</th>
                     <th class="py-4 px-4 rounded-l-xl text-center">عملیات</th>
                 </tr>
@@ -51,13 +52,37 @@
                             @endif
                         </td>
 
+                        {{-- تغییر وضعیت پیش‌نویس / منتشرشده --}}
+                        <td class="py-4 px-4 text-center">
+                            <form action="{{ route('admin.blog.status', $blog) }}" method="POST">
+                                @csrf
+                                @method('PATCH')
+                                <select name="status" onchange="this.form.submit()"
+                                        class="px-2 py-1.5 rounded-lg border text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-purple-500
+                                        {{ $blog->isPublished()
+                                            ? 'bg-green-50 border-green-200 text-green-700'
+                                            : 'bg-amber-50 border-amber-200 text-amber-700' }}">
+                                    @foreach(\App\Models\Blog::STATUSES as $value => $label)
+                                        <option value="{{ $value }}" @selected($blog->status === $value)>{{ $label }}</option>
+                                    @endforeach
+                                </select>
+                            </form>
+                        </td>
+
                         <td class="py-4 px-4 text-gray-500 text-sm">{{ $blog->created_at->diffForHumans() }}</td>
                         <td class="py-4 px-4 text-center">
                             <div class="flex items-center justify-center space-x-3 space-x-reverse">
-                                <a href="{{ $blog->routeUrl() }}" title="نمایش" target="_blank"
-                                   class="text-green-600 hover:text-green-800 rounded-full hover:bg-green-100 transition duration-200">
-                                    <i class="fas fa-eye text-lg"></i>
-                                </a>
+                                @if($blog->isPublished())
+                                    <a href="{{ $blog->routeUrl() }}" title="نمایش" target="_blank"
+                                       class="text-green-600 hover:text-green-800 p-2 rounded-full hover:bg-green-100 transition duration-200">
+                                        <i class="fas fa-eye text-lg"></i>
+                                    </a>
+                                @else
+                                    <span title="پیش‌نویس؛ در سایت نمایش داده نمی‌شود"
+                                          class="text-gray-300 p-2 cursor-not-allowed">
+                                        <i class="fas fa-eye-slash text-lg"></i>
+                                    </span>
+                                @endif
                                 <a href="{{ route('admin.blog.edit', $blog) }}" title="ویرایش"
                                    class="text-blue-600 hover:text-blue-800 p-2 rounded-full hover:bg-blue-100 transition duration-200">
                                     <i class="fas fa-edit text-lg"></i>
@@ -76,7 +101,7 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="5" class="py-12 text-center text-gray-500 text-lg">
+                        <td colspan="6" class="py-12 text-center text-gray-500 text-lg">
                             <i class="fas fa-book-open mb-3 text-3xl text-gray-300"></i>
                             <p>هیچ مقاله‌ای برای نمایش وجود ندارد.</p>
                             <p class="text-sm mt-1">از دکمه بالا برای ایجاد اولین مقاله استفاده کنید.</p>

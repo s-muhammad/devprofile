@@ -11,9 +11,9 @@ class IndexController extends Controller
 {
     public function index()
     {
-        $blogs = Blog::latest()->take(3)->get();
-        $featured = Projects::where('is_featured', 1)->first();
-        $query = Projects::latest()->take(3);
+        $blogs = Blog::published()->latest()->take(3)->get();
+        $featured = Projects::active()->where('is_featured', 1)->first();
+        $query = Projects::active()->latest()->take(3);
         if ($featured) {
             $query->where('id', '!=', $featured->id);
         }
@@ -25,9 +25,10 @@ class IndexController extends Controller
     public function blog()
     {
         $perPage = 6;
-        $blogs = Blog::latest()->paginate($perPage);
-        $header = Blog::whereBetween('id', [1, 4])->inRandomOrder()->first();
-        $total = Blog::count();
+        $blogs = Blog::published()->latest()->paginate($perPage);
+        $header = Blog::published()->whereBetween('id', [1, 4])->inRandomOrder()->first()
+            ?? Blog::published()->latest()->first();
+        $total = Blog::published()->count();
         return view('blog.index', compact('blogs', 'header', 'total', 'perPage'));
     }
 
@@ -35,8 +36,8 @@ class IndexController extends Controller
     {
         $perPage = 6;
         $page = $request->input('page', 2);
-        $blogs = Blog::latest()->paginate($perPage, ['*'], 'page', $page);
-        $total = Blog::count();
+        $blogs = Blog::published()->latest()->paginate($perPage, ['*'], 'page', $page);
+        $total = Blog::published()->count();
 
         if ($request->ajax()) {
             return response()->json([
@@ -51,6 +52,8 @@ class IndexController extends Controller
 
     public function blogSingle(Blog $blog)
     {
+        abort_unless($blog->isPublished(), 404);
+
         $captcha = $this->generateMathCaptcha();
         session([
             'comment_captcha_answer' => $captcha['answer'],
