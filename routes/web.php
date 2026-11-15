@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\ArticleGenerationController;
 use App\Http\Controllers\Admin\BlogController;
 use App\Http\Controllers\Admin\CommentsController;
 use App\Http\Controllers\Admin\DashboardController;
@@ -32,6 +33,8 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
     Route::prefix('seo')->name('seo.')->group(function () {
         Route::resource('keywords', SeoKeywordController::class)->except('show');
         Route::patch('keywords/{keyword}/status', [SeoKeywordController::class, 'updateStatus'])->name('keywords.status');
+        Route::post('keywords/{keyword}/generate-article', [ArticleGenerationController::class, 'store'])
+            ->name('keywords.generate-article');
         Route::resource('tasks', SeoTaskController::class)->except('show');
         Route::patch('tasks/{task}/toggle', [SeoTaskController::class, 'toggleStatus'])->name('tasks.toggle');
     });

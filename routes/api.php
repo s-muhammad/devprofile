@@ -131,3 +131,8 @@ Route::post('automation/v2/keyword-ideas', function (Request $request) {
         'total' => count($validated['ideas']),
     ]);
 });
+
+
+// Make.com article generation callback. Each job is authenticated with a one-time token.
+Route::post('automation/articles/callback', [\App\Http\Controllers\Api\ArticleGenerationCallbackController::class, 'store'])
+    ->middleware('throttle:10,1');

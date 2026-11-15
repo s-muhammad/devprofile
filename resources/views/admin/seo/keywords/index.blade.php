@@ -9,6 +9,11 @@
                 </div>
             </div>
         @endif
+        @if(session('error'))
+            <div class="bg-red-50 border-r-4 border-red-500 text-red-700 p-4 rounded-lg mb-8 shadow-md">
+                <p class="font-semibold text-sm">{{ session('error') }}</p>
+            </div>
+        @endif
 
         <div class="flex justify-between items-center mb-6 pb-4 border-b border-gray-200">
             <h2 class="text-3xl font-extrabold text-gray-800">
@@ -107,6 +112,16 @@
                         </td>
                         <td class="py-4 px-4 text-center">
                             <div class="flex items-center justify-center space-x-3 space-x-reverse">
+                                @if(in_array($keyword->status, ['idea', 'planned'], true))
+                                    <form action="{{ route('admin.seo.keywords.generate-article', $keyword) }}" method="POST"
+                                          onsubmit="return confirm('مقاله برای این کلمه کلیدی در Make تولید شود؟');">
+                                        @csrf
+                                        <button type="submit" title="ارسال برای تولید مقاله"
+                                                class="text-emerald-600 hover:text-emerald-800 p-2 rounded-full hover:bg-emerald-100 transition duration-200">
+                                            <i class="fas fa-robot text-lg"></i>
+                                        </button>
+                                    </form>
+                                @endif
                                 <a href="{{ route('admin.seo.keywords.edit', $keyword) }}" title="ویرایش"
                                    class="text-blue-600 hover:text-blue-800 p-2 rounded-full hover:bg-blue-100 transition duration-200">
                                     <i class="fas fa-edit text-lg"></i>
