@@ -25,8 +25,9 @@ class ArticleGenerationCallbackController extends Controller
             'article.title' => ['required_if:status,completed', 'string', 'max:255'],
             'article.content' => ['required_if:status,completed', 'string', 'min:100'],
             'article.excerpt' => ['required_if:status,completed', 'string', 'max:255'],
-            'article.image_base64' => ['required_if:status,completed', 'string', 'max:7000000'],
-            'article.image_mime_type' => ['required_if:status,completed', 'in:image/png,image/jpeg,image/webp'],
+            'article.image_base64' => ['sometimes', 'required_with:article.image_mime_type', 'string', 'max:7000000'],
+            'article.image_mime_type' => ['sometimes', 'required_with:article.image_base64', 'in:image/png,image/jpeg,image/webp'],
+            'article.image_error' => ['nullable', 'string', 'max:1000'],
         ]);
 
         $job = ArticleGenerationJob::find($validated['job_id']);
@@ -62,27 +63,37 @@ class ArticleGenerationCallbackController extends Controller
             return response()->json(['success' => true, 'message' => 'Failure status recorded.']);
         }
 
-        $imageBase64 = preg_replace('/^data:image\/[a-zA-Z0-9.+-]+;base64,/', '', $validated['article']['image_base64']);
-        $imageBytes = base64_decode($imageBase64, true);
+        $imagePath = null;
+        $imageGenerated = false;
 
-        if ($imageBytes === false || strlen($imageBytes) > 5 * 1024 * 1024) {
-            throw ValidationException::withMessages([
-                'article.image_base64' => 'The generated image is invalid or exceeds 5 MB.',
-            ]);
+        if (! empty($validated['article']['image_base64'])) {
+            $imageBase64 = preg_replace(
+                '/^data:image\/[a-zA-Z0-9.+-]+;base64,/',
+                '',
+                $validated['article']['image_base64']
+            );
+            $imageBytes = base64_decode($imageBase64, true);
+
+            if ($imageBytes === false || strlen($imageBytes) > 5 * 1024 * 1024) {
+                throw ValidationException::withMessages([
+                    'article.image_base64' => 'The generated image is invalid or exceeds 5 MB.',
+                ]);
+            }
+
+            $mimeToExtension = [
+                'image/png' => 'png',
+                'image/jpeg' => 'jpg',
+                'image/webp' => 'webp',
+            ];
+            $extension = $mimeToExtension[$validated['article']['image_mime_type']];
+            $imagePath = 'articles/'.Str::uuid().'.'.$extension;
+
+            Storage::disk('public')->put($imagePath, $imageBytes);
+            $imageGenerated = true;
         }
 
-        $mimeToExtension = [
-            'image/png' => 'png',
-            'image/jpeg' => 'jpg',
-            'image/webp' => 'webp',
-        ];
-        $extension = $mimeToExtension[$validated['article']['image_mime_type']];
-        $imagePath = 'articles/'.Str::uuid().'.'.$extension;
-
-        Storage::disk('public')->put($imagePath, $imageBytes);
-
         try {
-            $blog = DB::transaction(function () use ($job, $validated, $imagePath) {
+            $blog = DB::transaction(function () use ($job, $validated, $imagePath, $imageGenerated) {
                 $lockedJob = ArticleGenerationJob::query()->lockForUpdate()->findOrFail($job->id);
 
                 if ($lockedJob->status === 'completed' && $lockedJob->blog_id) {
@@ -105,7 +116,12 @@ class ArticleGenerationCallbackController extends Controller
                     'status' => 'completed',
                     'blog_id' => $blog->id,
                     'error_message' => null,
-                    'response' => ['callback' => 'completed', 'blog_id' => $blog->id],
+                    'response' => [
+                        'callback' => 'completed',
+                        'blog_id' => $blog->id,
+                        'image_generated' => $imageGenerated,
+                        'image_error' => $validated['article']['image_error'] ?? null,
+                    ],
                 ]);
 
                 $lockedJob->seoKeyword()->where('status', 'writing')->update(['status' => 'planned']);
@@ -113,15 +129,20 @@ class ArticleGenerationCallbackController extends Controller
                 return $blog;
             });
         } catch (\Throwable $exception) {
-            Storage::disk('public')->delete($imagePath);
+            if ($imagePath) {
+                Storage::disk('public')->delete($imagePath);
+            }
             throw $exception;
         }
 
         return response()->json([
             'success' => true,
-            'message' => 'Article saved as draft.',
+            'message' => $imageGenerated
+                ? 'Article saved as draft with featured image.'
+                : 'Article saved as draft without a featured image.',
             'blog_id' => $blog->id,
             'slug' => $blog->slug,
+            'image_generated' => $imageGenerated,
         ], 201);
     }
 }
