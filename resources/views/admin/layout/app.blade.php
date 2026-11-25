@@ -6,15 +6,8 @@
     <meta name="robots" content="noindex, nofollow">
     <title>پنل مدیریت</title>
     <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@100;400;700;900&display=swap" rel="stylesheet">
-    @vite('resources/css/app.css')
+    @vite(['resources/css/app.css', 'resources/js/ckeditor.js'])
     <link rel="stylesheet" href="{{ asset('font/fontawesome-free-7.3.1-web/css/all.min.css') }}">
-    <script src="/tinymce/js/tinymce/tinymce.min.js" referrerpolicy="origin" crossorigin="anonymous"></script>
-    <script>
-        tinymce.init({
-            selector: '#mytextarea',
-            license_key: 'gpl' // gpl for open source, T8LK:... for commercial
-        });
-    </script>
 </head>
 <body class="bg-gradient-to-br from-gray-50 to-indigo-50 font-sans text-gray-800">
 
