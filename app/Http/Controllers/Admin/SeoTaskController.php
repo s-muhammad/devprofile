@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\SeoKeyword;
 use App\Models\SeoTask;
+use App\Support\Csv;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
 class SeoTaskController extends Controller
@@ -94,6 +96,156 @@ class SeoTaskController extends Controller
         $task->delete();
 
         return redirect()->route('admin.seo.tasks.index')->with('success', 'کار حذف شد.');
+    }
+
+    public function import(Request $request)
+    {
+        $request->validate([
+            'csv' => ['required', 'file', 'max:5120'],
+        ], [
+            'csv.required' => 'انتخاب فایل CSV الزامی است.',
+            'csv.file' => 'فایل ارسال‌شده معتبر نیست.',
+            'csv.max' => 'حجم فایل نباید بیشتر از ۵ مگابایت باشد.',
+        ]);
+
+        try {
+            $rows = Csv::rows($request->file('csv'));
+        } catch (\Throwable $exception) {
+            return back()->with('error', 'خواندن فایل CSV ممکن نشد: '.$exception->getMessage());
+        }
+
+        if ($rows === []) {
+            return back()->with('error', 'فایل CSV هیچ ردیف داده‌ای ندارد.');
+        }
+
+        if (! array_key_exists('title', $rows[0])) {
+            return back()->with('error', 'ستون «title» یا «عنوان» در ردیف اول فایل پیدا نشد.');
+        }
+
+        $keywordLookup = SeoKeyword::query()
+            ->get(['id', 'keyword'])
+            ->keyBy(fn (SeoKeyword $keyword) => mb_strtolower(trim($keyword->keyword)));
+
+        $errors = [];
+        $imported = 0;
+
+        foreach ($rows as $row) {
+            $line = $row['__line'] ?? '?';
+            $title = trim($row['title'] ?? '');
+
+            if ($title === '') {
+                $errors[] = "سطر {$line}: عنوان کار خالی است.";
+
+                continue;
+            }
+
+            $priorityRaw = trim($row['priority'] ?? '');
+            $statusRaw = trim($row['status'] ?? '');
+
+            $priority = Csv::enum($priorityRaw, SeoTask::PRIORITIES);
+            $status = Csv::enum($statusRaw, SeoTask::STATUSES);
+
+            if ($priorityRaw !== '' && $priority === null) {
+                $errors[] = "سطر {$line}: مقدار اولویت «{$priorityRaw}» معتبر نیست.";
+
+                continue;
+            }
+
+            if ($statusRaw !== '' && $status === null) {
+                $errors[] = "سطر {$line}: مقدار وضعیت «{$statusRaw}» معتبر نیست.";
+
+                continue;
+            }
+
+            $keywordName = trim($row['keyword'] ?? '');
+            $keywordIdRaw = Csv::normalizeDigits($row['seo_keyword_id'] ?? '');
+            $keywordId = null;
+
+            if ($keywordName !== '') {
+                $keyword = $keywordLookup->get(mb_strtolower($keywordName));
+
+                if (! $keyword) {
+                    $errors[] = "سطر {$line}: کلمه کلیدی «{$keywordName}» پیدا نشد.";
+
+                    continue;
+                }
+
+                $keywordId = $keyword->id;
+            } elseif ($keywordIdRaw !== '') {
+                $keyword = $keywordLookup->firstWhere('id', (int) $keywordIdRaw);
+
+                if (! $keyword) {
+                    $errors[] = "سطر {$line}: شناسه کلمه کلیدی «{$keywordIdRaw}» معتبر نیست.";
+
+                    continue;
+                }
+
+                $keywordId = $keyword->id;
+            }
+
+            $dueDate = null;
+            $dueDateRaw = trim($row['due_date'] ?? '');
+
+            if ($dueDateRaw !== '') {
+                $dueDate = jalali_to_gregorian($dueDateRaw);
+
+                if ($dueDate === null) {
+                    $errors[] = "سطر {$line}: تاریخ سررسید «{$dueDateRaw}» معتبر نیست. نمونه صحیح: ۱۴۰۵/۰۸/۰۱";
+
+                    continue;
+                }
+            }
+
+            $data = [
+                'title' => $title,
+                'description' => trim($row['description'] ?? '') ?: null,
+                'priority' => $priority ?? 'medium',
+                'status' => $status ?? 'todo',
+                'due_date' => $dueDate,
+                'seo_keyword_id' => $keywordId,
+                'related_url' => trim($row['related_url'] ?? '') ?: null,
+            ];
+
+            $validator = Validator::make($data, $this->rules(), $this->messages(), $this->attributes());
+
+            if ($validator->fails()) {
+                $errors[] = "سطر {$line}: ".$validator->errors()->first();
+
+                continue;
+            }
+
+            $data['completed_at'] = $data['status'] === 'done' ? now() : null;
+
+            SeoTask::create($data);
+
+            $imported++;
+        }
+
+        $successMessage = "{$imported} کار با موفقیت وارد شد.";
+
+        if ($imported === 0) {
+            return back()
+                ->with('error', 'هیچ ردیفی وارد نشد. جزئیات خطاها را بررسی کنید.')
+                ->with('import_errors', array_slice($errors, 0, 25));
+        }
+
+        return back()
+            ->with('success', $successMessage)
+            ->with('import_errors', array_slice($errors, 0, 25));
+    }
+
+    public function importTemplate()
+    {
+        $headers = ['title', 'description', 'priority', 'status', 'due_date', 'keyword', 'related_url'];
+        $sample = ['بهینه‌سازی سرعت صفحه اصلی', 'بررسی و بهبود Core Web Vitals', 'high', 'todo', '۱۴۰۵/۰۸/۰۱', 'طراحی سایت', '/'];
+
+        return response()->streamDownload(function () use ($headers, $sample) {
+            $stream = fopen('php://output', 'w');
+            fwrite($stream, "\xEF\xBB\xBF");
+            fputcsv($stream, $headers);
+            fputcsv($stream, $sample);
+            fclose($stream);
+        }, 'seo-tasks-template.csv', ['Content-Type' => 'text/csv; charset=UTF-8']);
     }
 
     /**

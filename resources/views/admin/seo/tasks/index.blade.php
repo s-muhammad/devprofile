@@ -9,18 +9,44 @@
                 </div>
             </div>
         @endif
+        @if(session('error'))
+            <div class="bg-red-50 border-r-4 border-red-500 text-red-700 p-4 rounded-lg mb-8 shadow-md">
+                <p class="font-semibold text-sm">{{ session('error') }}</p>
+            </div>
+        @endif
+        @if(session('import_errors') && count(session('import_errors')))
+            <div class="bg-amber-50 border-r-4 border-amber-500 text-amber-800 p-4 rounded-lg mb-8 shadow-md">
+                <p class="font-semibold text-sm mb-2">
+                    <i class="fas fa-exclamation-triangle ml-2"></i>
+                    برخی ردیف‌ها وارد نشدند:
+                </p>
+                <ul class="list-disc list-inside text-sm space-y-1 max-h-48 overflow-y-auto">
+                    @foreach(session('import_errors') as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
 
-        <div class="flex justify-between items-center mb-6 pb-4 border-b border-gray-200">
+        <div class="flex flex-wrap justify-between items-center gap-4 mb-6 pb-4 border-b border-gray-200">
             <h2 class="text-3xl font-extrabold text-gray-800">
                 <i class="fas fa-search text-blue-600 ml-3"></i>
                 دفترچه سئو
             </h2>
-            <a href="{{ route('admin.seo.tasks.create') }}"
-               class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-xl shadow-lg
-                      shadow-blue-500/50 transition duration-300 transform hover:scale-[1.02] flex items-center gap-2">
-                <i class="fas fa-plus"></i>
-                افزودن کار
-            </a>
+            <div class="flex flex-wrap items-center gap-3">
+                <button type="button" data-import-open="seo-tasks-import-modal"
+                        class="bg-white border-2 border-blue-600 text-blue-700 hover:bg-blue-50 font-bold py-3 px-6 rounded-xl
+                               shadow-md transition duration-300 flex items-center gap-2">
+                    <i class="fas fa-file-csv"></i>
+                    واردکردن CSV
+                </button>
+                <a href="{{ route('admin.seo.tasks.create') }}"
+                   class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-xl shadow-lg
+                          shadow-blue-500/50 transition duration-300 transform hover:scale-[1.02] flex items-center gap-2">
+                    <i class="fas fa-plus"></i>
+                    افزودن کار
+                </a>
+            </div>
         </div>
 
         @include('admin.seo.partials.tabs')
@@ -152,5 +178,22 @@
         <div class="mt-8 flex justify-center">
             {{ $tasks->links() }}
         </div>
+
+        @include('admin.seo.partials.import-modal', [
+            'modalId' => 'seo-tasks-import-modal',
+            'title' => 'واردکردن CSV کارها',
+            'action' => route('admin.seo.tasks.import'),
+            'templateRoute' => route('admin.seo.tasks.import.template'),
+            'columns' => [
+                ['title', 'الزامی'],
+                ['description', 'توضیحات'],
+                ['priority', 'low / medium / high'],
+                ['status', 'todo / in_progress / done'],
+                ['due_date', 'شمسی مثل ۱۴۰۵/۰۸/۰۱'],
+                ['keyword', 'نام کلمه کلیدی مرتبط'],
+                ['seo_keyword_id', 'شناسه کلمه کلیدی (جایگزین keyword)'],
+                ['related_url', 'آدرس مرتبط'],
+            ],
+        ])
     </main>
 @endsection

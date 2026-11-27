@@ -14,18 +14,39 @@
                 <p class="font-semibold text-sm">{{ session('error') }}</p>
             </div>
         @endif
+        @if(session('import_errors') && count(session('import_errors')))
+            <div class="bg-amber-50 border-r-4 border-amber-500 text-amber-800 p-4 rounded-lg mb-8 shadow-md">
+                <p class="font-semibold text-sm mb-2">
+                    <i class="fas fa-exclamation-triangle ml-2"></i>
+                    برخی ردیف‌ها وارد نشدند:
+                </p>
+                <ul class="list-disc list-inside text-sm space-y-1 max-h-48 overflow-y-auto">
+                    @foreach(session('import_errors') as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
 
-        <div class="flex justify-between items-center mb-6 pb-4 border-b border-gray-200">
+        <div class="flex flex-wrap justify-between items-center gap-4 mb-6 pb-4 border-b border-gray-200">
             <h2 class="text-3xl font-extrabold text-gray-800">
                 <i class="fas fa-search text-blue-600 ml-3"></i>
                 دفترچه سئو
             </h2>
-            <a href="{{ route('admin.seo.keywords.create') }}"
-               class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-xl shadow-lg
-                      shadow-blue-500/50 transition duration-300 transform hover:scale-[1.02] flex items-center gap-2">
-                <i class="fas fa-plus"></i>
-                افزودن کلمه کلیدی
-            </a>
+            <div class="flex flex-wrap items-center gap-3">
+                <button type="button" data-import-open="seo-keywords-import-modal"
+                        class="bg-white border-2 border-blue-600 text-blue-700 hover:bg-blue-50 font-bold py-3 px-6 rounded-xl
+                               shadow-md transition duration-300 flex items-center gap-2">
+                    <i class="fas fa-file-csv"></i>
+                    واردکردن CSV
+                </button>
+                <a href="{{ route('admin.seo.keywords.create') }}"
+                   class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-xl shadow-lg
+                          shadow-blue-500/50 transition duration-300 transform hover:scale-[1.02] flex items-center gap-2">
+                    <i class="fas fa-plus"></i>
+                    افزودن کلمه کلیدی
+                </a>
+            </div>
         </div>
 
         @include('admin.seo.partials.tabs')
@@ -56,18 +77,75 @@
             @endif
         </form>
 
+        @php
+            $currentSort = request('sort', 'created_at');
+            $currentDirection = request('direction') === 'asc' ? 'asc' : 'desc';
+            $sortLink = function (string $column) use ($currentSort, $currentDirection) {
+                $direction = ($currentSort === $column && $currentDirection === 'asc') ? 'desc' : 'asc';
+
+                return route('admin.seo.keywords.index', array_merge(request()->except('page'), [
+                    'sort' => $column,
+                    'direction' => $direction,
+                ]));
+            };
+            $sortIcon = function (string $column) use ($currentSort, $currentDirection) {
+                if ($currentSort !== $column) {
+                    return '<i class="fas fa-sort text-gray-300 text-xs"></i>';
+                }
+
+                return $currentDirection === 'asc'
+                    ? '<i class="fas fa-sort-up text-blue-600"></i>'
+                    : '<i class="fas fa-sort-down text-blue-600"></i>';
+            };
+        @endphp
+
         <div class="bg-white rounded-2xl shadow-xl p-6 md:p-8 overflow-x-auto">
             <table class="min-w-full text-right divide-y divide-gray-200">
                 <thead>
                 <tr class="bg-gray-100 text-gray-600 text-sm uppercase font-semibold tracking-wider">
                     <th class="py-4 px-4 rounded-r-xl">#</th>
-                    <th class="py-4 px-4">کلمه کلیدی</th>
-                    <th class="py-4 px-4 text-center">حجم جستجو</th>
-                    <th class="py-4 px-4 text-center">سختی</th>
-                    <th class="py-4 px-4 text-center">قصد</th>
-                    <th class="py-4 px-4 text-center">وضعیت</th>
-                    <th class="py-4 px-4 text-center">رتبه</th>
-                    <th class="py-4 px-4 text-center">کارهای باز</th>
+                    <th class="py-4 px-4">
+                        <a href="{{ $sortLink('keyword') }}" title="مرتب‌سازی بر اساس کلمه کلیدی"
+                           class="inline-flex items-center gap-1 hover:text-blue-600 transition">
+                            کلمه کلیدی {!! $sortIcon('keyword') !!}
+                        </a>
+                    </th>
+                    <th class="py-4 px-4 text-center">
+                        <a href="{{ $sortLink('search_volume') }}" title="مرتب‌سازی بر اساس حجم جستجو"
+                           class="inline-flex items-center justify-center gap-1 hover:text-blue-600 transition">
+                            حجم جستجو {!! $sortIcon('search_volume') !!}
+                        </a>
+                    </th>
+                    <th class="py-4 px-4 text-center">
+                        <a href="{{ $sortLink('difficulty') }}" title="مرتب‌سازی بر اساس سختی"
+                           class="inline-flex items-center justify-center gap-1 hover:text-blue-600 transition">
+                            سختی {!! $sortIcon('difficulty') !!}
+                        </a>
+                    </th>
+                    <th class="py-4 px-4 text-center">
+                        <a href="{{ $sortLink('intent') }}" title="مرتب‌سازی بر اساس قصد"
+                           class="inline-flex items-center justify-center gap-1 hover:text-blue-600 transition">
+                            قصد {!! $sortIcon('intent') !!}
+                        </a>
+                    </th>
+                    <th class="py-4 px-4 text-center">
+                        <a href="{{ $sortLink('status') }}" title="مرتب‌سازی بر اساس وضعیت"
+                           class="inline-flex items-center justify-center gap-1 hover:text-blue-600 transition">
+                            وضعیت {!! $sortIcon('status') !!}
+                        </a>
+                    </th>
+                    <th class="py-4 px-4 text-center">
+                        <a href="{{ $sortLink('current_rank') }}" title="مرتب‌سازی بر اساس رتبه"
+                           class="inline-flex items-center justify-center gap-1 hover:text-blue-600 transition">
+                            رتبه {!! $sortIcon('current_rank') !!}
+                        </a>
+                    </th>
+                    <th class="py-4 px-4 text-center">
+                        <a href="{{ $sortLink('open_tasks_count') }}" title="مرتب‌سازی بر اساس تعداد کارهای باز"
+                           class="inline-flex items-center justify-center gap-1 hover:text-blue-600 transition">
+                            کارهای باز {!! $sortIcon('open_tasks_count') !!}
+                        </a>
+                    </th>
                     <th class="py-4 px-4 rounded-l-xl text-center">عملیات</th>
                 </tr>
                 </thead>
@@ -153,5 +231,22 @@
         <div class="mt-8 flex justify-center">
             {{ $keywords->links() }}
         </div>
+
+        @include('admin.seo.partials.import-modal', [
+            'modalId' => 'seo-keywords-import-modal',
+            'title' => 'واردکردن CSV کلمات کلیدی',
+            'action' => route('admin.seo.keywords.import'),
+            'templateRoute' => route('admin.seo.keywords.import.template'),
+            'columns' => [
+                ['keyword', 'الزامی'],
+                ['search_volume', 'عدد'],
+                ['difficulty', 'low / medium / high'],
+                ['intent', 'informational / commercial / transactional / navigational'],
+                ['status', 'idea / planned / writing / published / needs_improvement'],
+                ['target_url', 'آدرس هدف'],
+                ['current_rank', 'عدد'],
+                ['notes', 'یادداشت'],
+            ],
+        ])
     </main>
 @endsection

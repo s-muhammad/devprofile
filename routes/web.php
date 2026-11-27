@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\BlogController;
 use App\Http\Controllers\Admin\CommentsController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ProjectsController;
+use App\Http\Controllers\Admin\SeoGraphController;
 use App\Http\Controllers\Admin\SeoKeywordController;
 use App\Http\Controllers\Admin\SeoTaskController;
 use App\Http\Controllers\Admin\SettingsController;
@@ -31,11 +32,18 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
     Route::post('settings/update', [SettingsController::class, 'update'])->name('settings.update');
 
     Route::prefix('seo')->name('seo.')->group(function () {
+        Route::get('graph', [SeoGraphController::class, 'index'])->name('graph.index');
+
         Route::resource('keywords', SeoKeywordController::class)->except('show');
+        Route::post('keywords/import', [SeoKeywordController::class, 'import'])->name('keywords.import');
+        Route::get('keywords/import/template', [SeoKeywordController::class, 'importTemplate'])->name('keywords.import.template');
         Route::patch('keywords/{keyword}/status', [SeoKeywordController::class, 'updateStatus'])->name('keywords.status');
         Route::post('keywords/{keyword}/generate-article', [ArticleGenerationController::class, 'store'])
             ->name('keywords.generate-article');
+
         Route::resource('tasks', SeoTaskController::class)->except('show');
+        Route::post('tasks/import', [SeoTaskController::class, 'import'])->name('tasks.import');
+        Route::get('tasks/import/template', [SeoTaskController::class, 'importTemplate'])->name('tasks.import.template');
         Route::patch('tasks/{task}/toggle', [SeoTaskController::class, 'toggleStatus'])->name('tasks.toggle');
     });
 });

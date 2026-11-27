@@ -2,6 +2,7 @@
     $tabs = [
         'admin.seo.keywords.index' => ['label' => 'کلمات کلیدی', 'icon' => 'fas fa-key'],
         'admin.seo.tasks.index' => ['label' => 'کارها', 'icon' => 'fas fa-tasks'],
+        'admin.seo.graph.index' => ['label' => 'گراف', 'icon' => 'fas fa-project-diagram'],
     ];
 @endphp
 <div class="border-b border-gray-200 mb-8">
