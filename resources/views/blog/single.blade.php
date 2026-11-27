@@ -1,4 +1,7 @@
 @extends('partials.layout')
+
+@section('seo_title', $blog->title . ' | ' . setting('site_title'))
+@section('seo_description', \Illuminate\Support\Str::limit(strip_tags($blog->summary ?: $blog->description), 160))
 @section('main')
     <main class="max-w-7xl mx-auto px-4 py-10">
 

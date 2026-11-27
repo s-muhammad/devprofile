@@ -90,16 +90,63 @@
             @endif
         </form>
 
+        @php
+            $currentSort = request('sort');
+            $currentDirection = request('direction') === 'desc' ? 'desc' : 'asc';
+            $sortLink = function (string $column) use ($currentSort, $currentDirection) {
+                $direction = ($currentSort === $column && $currentDirection === 'asc') ? 'desc' : 'asc';
+
+                return route('admin.seo.tasks.index', array_merge(request()->except('page'), [
+                    'sort' => $column,
+                    'direction' => $direction,
+                ]));
+            };
+            $sortIcon = function (string $column) use ($currentSort, $currentDirection) {
+                if ($currentSort !== $column) {
+                    return '<i class="fas fa-sort text-gray-300 text-xs"></i>';
+                }
+
+                return $currentDirection === 'asc'
+                    ? '<i class="fas fa-sort-up text-blue-600"></i>'
+                    : '<i class="fas fa-sort-down text-blue-600"></i>';
+            };
+        @endphp
+
         <div class="bg-white rounded-2xl shadow-xl p-6 md:p-8 overflow-x-auto">
             <table class="min-w-full text-right divide-y divide-gray-200">
                 <thead>
                 <tr class="bg-gray-100 text-gray-600 text-sm uppercase font-semibold tracking-wider">
                     <th class="py-4 px-4 rounded-r-xl">#</th>
-                    <th class="py-4 px-4">عنوان</th>
-                    <th class="py-4 px-4">کلمه کلیدی</th>
-                    <th class="py-4 px-4 text-center">اولویت</th>
-                    <th class="py-4 px-4 text-center">وضعیت</th>
-                    <th class="py-4 px-4 text-center">سررسید</th>
+                    <th class="py-4 px-4">
+                        <a href="{{ $sortLink('title') }}" title="مرتب‌سازی بر اساس عنوان"
+                           class="inline-flex items-center gap-1 hover:text-blue-600 transition">
+                            عنوان {!! $sortIcon('title') !!}
+                        </a>
+                    </th>
+                    <th class="py-4 px-4">
+                        <a href="{{ $sortLink('keyword') }}" title="مرتب‌سازی بر اساس کلمه کلیدی"
+                           class="inline-flex items-center gap-1 hover:text-blue-600 transition">
+                            کلمه کلیدی {!! $sortIcon('keyword') !!}
+                        </a>
+                    </th>
+                    <th class="py-4 px-4 text-center">
+                        <a href="{{ $sortLink('priority') }}" title="مرتب‌سازی بر اساس اولویت"
+                           class="inline-flex items-center justify-center gap-1 hover:text-blue-600 transition">
+                            اولویت {!! $sortIcon('priority') !!}
+                        </a>
+                    </th>
+                    <th class="py-4 px-4 text-center">
+                        <a href="{{ $sortLink('status') }}" title="مرتب‌سازی بر اساس وضعیت"
+                           class="inline-flex items-center justify-center gap-1 hover:text-blue-600 transition">
+                            وضعیت {!! $sortIcon('status') !!}
+                        </a>
+                    </th>
+                    <th class="py-4 px-4 text-center">
+                        <a href="{{ $sortLink('due_date') }}" title="مرتب‌سازی بر اساس سررسید"
+                           class="inline-flex items-center justify-center gap-1 hover:text-blue-600 transition">
+                            سررسید {!! $sortIcon('due_date') !!}
+                        </a>
+                    </th>
                     <th class="py-4 px-4 rounded-l-xl text-center">عملیات</th>
                 </tr>
                 </thead>

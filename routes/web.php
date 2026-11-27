@@ -12,7 +12,41 @@ use App\Http\Controllers\Admin\SettingsController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\IndexController;
+use App\Models\Blog;
 use Illuminate\Support\Facades\Route;
+
+// SEO endpoints: generated from the current public content and host.
+Route::get('/sitemap.xml', function () {
+    $urls = collect([
+        ['loc' => url('/'), 'lastmod' => null, 'changefreq' => 'weekly', 'priority' => '1.0'],
+        ['loc' => url('/blog'), 'lastmod' => null, 'changefreq' => 'daily', 'priority' => '0.8'],
+    ])->concat(
+        Blog::published()->get()->map(fn (Blog $blog) => [
+            'loc' => $blog->routeUrl(),
+            'lastmod' => $blog->updated_at?->toAtomString(),
+            'changefreq' => 'monthly',
+            'priority' => '0.7',
+        ])
+    );
+
+    return response()
+        ->view('sitemap', ['urls' => $urls])
+        ->header('Content-Type', 'application/xml; charset=UTF-8');
+})->name('sitemap');
+
+Route::get('/robots.txt', function () {
+    $content = implode("\n", [
+        'User-agent: *',
+        'Allow: /',
+        'Disallow: /admin',
+        'Disallow: /login',
+        'Disallow: /blog/load-more',
+        'Sitemap: ' . url('/sitemap.xml'),
+        '',
+    ]);
+
+    return response($content, 200, ['Content-Type' => 'text/plain; charset=UTF-8']);
+})->name('robots');
 
 Route::get('/', [IndexController::class, 'index']);
 Route::get('blog', [IndexController::class, 'blog']);

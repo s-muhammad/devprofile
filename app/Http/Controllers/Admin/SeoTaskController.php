@@ -275,15 +275,37 @@ class SeoTaskController extends Controller
 
     private function filteredQuery(Request $request): Builder
     {
-        return SeoTask::query()
+        $query = SeoTask::query()
             ->with('keyword:id,keyword')
             ->when($request->filled('search'), fn ($query) => $query->where('title', 'like', '%'.$request->search.'%'))
             ->when($request->filled('status'), fn ($query) => $query->where('status', $request->status))
-            ->when($request->filled('priority'), fn ($query) => $query->where('priority', $request->priority))
+            ->when($request->filled('priority'), fn ($query) => $query->where('priority', $request->priority));
+
+        $sortable = ['title', 'keyword', 'priority', 'status', 'due_date'];
+        $sort = $request->input('sort');
+        $direction = $request->input('direction') === 'desc' ? 'desc' : 'asc';
+
+        if (in_array($sort, $sortable, true)) {
+            if ($sort === 'keyword') {
+                $query->leftJoin('seo_keywords', 'seo_tasks.seo_keyword_id', '=', 'seo_keywords.id')
+                    ->select('seo_tasks.*')
+                    ->orderBy('seo_keywords.keyword', $direction);
+            } elseif ($sort === 'priority') {
+                $query->orderByRaw("CASE priority WHEN 'high' THEN 1 WHEN 'medium' THEN 2 ELSE 3 END {$direction}");
+            } elseif ($sort === 'status') {
+                $query->orderByRaw("CASE status WHEN 'todo' THEN 1 WHEN 'in_progress' THEN 2 WHEN 'done' THEN 3 ELSE 4 END {$direction}");
+            } else {
+                $query->orderBy($sort, $direction);
+            }
+
+            return $query->orderBy('seo_tasks.id', 'desc');
+        }
+
+        return $query
             ->orderByRaw("CASE WHEN status = 'done' THEN 1 ELSE 0 END")
             ->orderByRaw('due_date IS NULL')
             ->orderBy('due_date')
-            ->latest();
+            ->latest('seo_tasks.created_at');
     }
 
     /**

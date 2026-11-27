@@ -41,6 +41,14 @@
                 @endif
             </a>
         @endforeach
+        <a href="{{ route('sitemap') }}" target="_blank" rel="noopener noreferrer"
+           class="flex items-center p-3 rounded-xl transition-all duration-200 ease-in-out group
+                  text-gray-300 hover:bg-gray-700 hover:text-white">
+            <i class="fas fa-sitemap text-lg ml-3 text-blue-400 group-hover:text-blue-300
+                      group-hover:scale-110 transition-transform"></i>
+            <span class="font-medium">مشاهده سایت‌مپ</span>
+            <i class="fas fa-external-link-alt text-xs mr-auto text-gray-400"></i>
+        </a>
     </nav>
     <div class="mt-8 pt-4 border-t border-gray-700">
         <a href="#" onclick="document.getElementById('form').submit();"

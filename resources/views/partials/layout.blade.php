@@ -13,10 +13,18 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
-    <title>{{ $isLanding ? 'DevProfile | طراحی سایت، سئو و توسعه وب' : setting('site_title') }}</title>
+    @php
+        $canonicalUrl = isset($blog) ? $blog->routeUrl() : url()->current();
+    @endphp
+    <title>{{ $__env->yieldContent('seo_title', $isLanding ? 'DevProfile | طراحی سایت، سئو و توسعه وب' : setting('site_title')) }}</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta content="{{ $isLanding ? 'طراحی سایت، سئو و توسعه وب؛ همراهی واقعی از اولین مشاوره تا بعد از تحویل پروژه.' : setting('site_description') }}" name="description">
+    <meta name="description" content="{{ $__env->yieldContent('seo_description', $isLanding ? 'طراحی سایت، سئو و توسعه وب؛ همراهی واقعی از اولین مشاوره تا بعد از تحویل پروژه.' : setting('site_description')) }}">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <link rel="canonical" href="{{ $canonicalUrl }}">
+    <meta property="og:title" content="{{ $__env->yieldContent('seo_title', setting('site_title')) }}">
+    <meta property="og:description" content="{{ $__env->yieldContent('seo_description', setting('site_description')) }}">
+    <meta property="og:url" content="{{ $canonicalUrl }}">
     <meta name="author" content="{{ setting('seo_meta_author') }}">
     <meta name="keywords" content="{{ setting('seo_meta_keywords') }}">
     <meta property="og:image" content="{{ setting('seo_og_image') }}">
