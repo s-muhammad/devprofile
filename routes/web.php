@@ -37,6 +37,7 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
         Route::resource('keywords', SeoKeywordController::class)->except('show');
         Route::post('keywords/import', [SeoKeywordController::class, 'import'])->name('keywords.import');
         Route::get('keywords/import/template', [SeoKeywordController::class, 'importTemplate'])->name('keywords.import.template');
+        Route::get('keywords/export', [SeoKeywordController::class, 'export'])->name('keywords.export');
         Route::patch('keywords/{keyword}/status', [SeoKeywordController::class, 'updateStatus'])->name('keywords.status');
         Route::post('keywords/{keyword}/generate-article', [ArticleGenerationController::class, 'store'])
             ->name('keywords.generate-article');
@@ -44,6 +45,7 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
         Route::resource('tasks', SeoTaskController::class)->except('show');
         Route::post('tasks/import', [SeoTaskController::class, 'import'])->name('tasks.import');
         Route::get('tasks/import/template', [SeoTaskController::class, 'importTemplate'])->name('tasks.import.template');
+        Route::get('tasks/export', [SeoTaskController::class, 'export'])->name('tasks.export');
         Route::patch('tasks/{task}/toggle', [SeoTaskController::class, 'toggleStatus'])->name('tasks.toggle');
     });
 });

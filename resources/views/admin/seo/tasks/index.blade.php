@@ -34,6 +34,12 @@
                 دفترچه سئو
             </h2>
             <div class="flex flex-wrap items-center gap-3">
+                <a href="{{ route('admin.seo.tasks.export', request()->except('page')) }}"
+                   class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 px-6 rounded-xl shadow-lg
+                          shadow-emerald-500/30 transition duration-300 flex items-center gap-2">
+                    <i class="fas fa-file-export"></i>
+                    خروجی CSV
+                </a>
                 <button type="button" data-import-open="seo-tasks-import-modal"
                         class="bg-white border-2 border-blue-600 text-blue-700 hover:bg-blue-50 font-bold py-3 px-6 rounded-xl
                                shadow-md transition duration-300 flex items-center gap-2">

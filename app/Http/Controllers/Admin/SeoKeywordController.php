@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\SeoKeyword;
 use App\Support\Csv;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
@@ -24,28 +25,7 @@ class SeoKeywordController extends Controller
 
     public function index(Request $request)
     {
-        $sort = (string) $request->input('sort', 'created_at');
-
-        if (! in_array($sort, self::SORTABLE, true)) {
-            $sort = 'created_at';
-        }
-
-        $direction = $request->input('direction') === 'asc' ? 'asc' : 'desc';
-
-        $keywords = SeoKeyword::query()
-            ->withCount(['tasks as open_tasks_count' => fn ($query) => $query->where('status', '!=', 'done')])
-            ->when($request->filled('search'), fn ($query) => $query->where('keyword', 'like', '%'.$request->search.'%'))
-            ->when($request->filled('status'), fn ($query) => $query->where('status', $request->status))
-            ->when($sort === 'difficulty', fn ($query) => $query->orderByRaw(
-                "CASE difficulty WHEN 'low' THEN 1 WHEN 'medium' THEN 2 WHEN 'high' THEN 3 ELSE 4 END {$direction}"
-            ))
-            ->when($sort === 'intent', fn ($query) => $query->orderByRaw(
-                "CASE intent WHEN 'informational' THEN 1 WHEN 'commercial' THEN 2 WHEN 'transactional' THEN 3 WHEN 'navigational' THEN 4 ELSE 5 END {$direction}"
-            ))
-            ->when($sort === 'status', fn ($query) => $query->orderByRaw(
-                "CASE status WHEN 'idea' THEN 1 WHEN 'planned' THEN 2 WHEN 'writing' THEN 3 WHEN 'published' THEN 4 WHEN 'needs_improvement' THEN 5 ELSE 6 END {$direction}"
-            ))
-            ->when(! in_array($sort, ['difficulty', 'intent', 'status'], true), fn ($query) => $query->orderBy($sort, $direction))
+        $keywords = $this->filteredQuery($request)
             ->paginate(10)
             ->withQueryString();
 
@@ -235,6 +215,65 @@ class SeoKeywordController extends Controller
             fputcsv($stream, $sample);
             fclose($stream);
         }, 'seo-keywords-template.csv', ['Content-Type' => 'text/csv; charset=UTF-8']);
+    }
+
+    public function export(Request $request)
+    {
+        $keywords = $this->filteredQuery($request)->get();
+
+        return response()->streamDownload(function () use ($keywords) {
+            $stream = fopen('php://output', 'w');
+
+            if ($stream === false) {
+                return;
+            }
+
+            $value = fn ($item) => $item === null ? '' : (string) $item;
+
+            fwrite($stream, "\xEF\xBB\xBF");
+            fputcsv($stream, ['keyword', 'search_volume', 'difficulty', 'intent', 'status', 'target_url', 'current_rank', 'notes']);
+
+            foreach ($keywords as $keyword) {
+                fputcsv($stream, [
+                    $value($keyword->keyword),
+                    $value($keyword->search_volume),
+                    $value($keyword->difficulty),
+                    $value($keyword->intent),
+                    $value($keyword->status),
+                    $value($keyword->target_url),
+                    $value($keyword->current_rank),
+                    $value($keyword->notes),
+                ]);
+            }
+
+            fclose($stream);
+        }, 'seo-keywords-'.now()->format('Y-m-d').'.csv', ['Content-Type' => 'text/csv; charset=UTF-8']);
+    }
+
+    private function filteredQuery(Request $request): Builder
+    {
+        $sort = (string) $request->input('sort', 'created_at');
+
+        if (! in_array($sort, self::SORTABLE, true)) {
+            $sort = 'created_at';
+        }
+
+        $direction = $request->input('direction') === 'asc' ? 'asc' : 'desc';
+
+        return SeoKeyword::query()
+            ->withCount(['tasks as open_tasks_count' => fn ($query) => $query->where('status', '!=', 'done')])
+            ->when($request->filled('search'), fn ($query) => $query->where('keyword', 'like', '%'.$request->search.'%'))
+            ->when($request->filled('status'), fn ($query) => $query->where('status', $request->status))
+            ->when($sort === 'difficulty', fn ($query) => $query->orderByRaw(
+                "CASE difficulty WHEN 'low' THEN 1 WHEN 'medium' THEN 2 WHEN 'high' THEN 3 ELSE 4 END {$direction}"
+            ))
+            ->when($sort === 'intent', fn ($query) => $query->orderByRaw(
+                "CASE intent WHEN 'informational' THEN 1 WHEN 'commercial' THEN 2 WHEN 'transactional' THEN 3 WHEN 'navigational' THEN 4 ELSE 5 END {$direction}"
+            ))
+            ->when($sort === 'status', fn ($query) => $query->orderByRaw(
+                "CASE status WHEN 'idea' THEN 1 WHEN 'planned' THEN 2 WHEN 'writing' THEN 3 WHEN 'published' THEN 4 WHEN 'needs_improvement' THEN 5 ELSE 6 END {$direction}"
+            ))
+            ->when(! in_array($sort, ['difficulty', 'intent', 'status'], true), fn ($query) => $query->orderBy($sort, $direction));
     }
 
     private function rules(): array

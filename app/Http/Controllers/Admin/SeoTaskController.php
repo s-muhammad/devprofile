@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\SeoKeyword;
 use App\Models\SeoTask;
 use App\Support\Csv;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
@@ -14,15 +15,7 @@ class SeoTaskController extends Controller
 {
     public function index(Request $request)
     {
-        $tasks = SeoTask::query()
-            ->with('keyword:id,keyword')
-            ->when($request->filled('search'), fn ($query) => $query->where('title', 'like', '%'.$request->search.'%'))
-            ->when($request->filled('status'), fn ($query) => $query->where('status', $request->status))
-            ->when($request->filled('priority'), fn ($query) => $query->where('priority', $request->priority))
-            ->orderByRaw("CASE WHEN status = 'done' THEN 1 ELSE 0 END")
-            ->orderByRaw('due_date IS NULL')
-            ->orderBy('due_date')
-            ->latest()
+        $tasks = $this->filteredQuery($request)
             ->paginate(10)
             ->withQueryString();
 
@@ -246,6 +239,51 @@ class SeoTaskController extends Controller
             fputcsv($stream, $sample);
             fclose($stream);
         }, 'seo-tasks-template.csv', ['Content-Type' => 'text/csv; charset=UTF-8']);
+    }
+
+    public function export(Request $request)
+    {
+        $tasks = $this->filteredQuery($request)->get();
+
+        return response()->streamDownload(function () use ($tasks) {
+            $stream = fopen('php://output', 'w');
+
+            if ($stream === false) {
+                return;
+            }
+
+            $value = fn ($item) => $item === null ? '' : (string) $item;
+
+            fwrite($stream, "\xEF\xBB\xBF");
+            fputcsv($stream, ['title', 'description', 'priority', 'status', 'due_date', 'keyword', 'related_url']);
+
+            foreach ($tasks as $task) {
+                fputcsv($stream, [
+                    $value($task->title),
+                    $value($task->description),
+                    $value($task->priority),
+                    $value($task->status),
+                    $value(jalali_date($task->due_date)),
+                    $value($task->keyword->keyword ?? null),
+                    $value($task->related_url),
+                ]);
+            }
+
+            fclose($stream);
+        }, 'seo-tasks-'.now()->format('Y-m-d').'.csv', ['Content-Type' => 'text/csv; charset=UTF-8']);
+    }
+
+    private function filteredQuery(Request $request): Builder
+    {
+        return SeoTask::query()
+            ->with('keyword:id,keyword')
+            ->when($request->filled('search'), fn ($query) => $query->where('title', 'like', '%'.$request->search.'%'))
+            ->when($request->filled('status'), fn ($query) => $query->where('status', $request->status))
+            ->when($request->filled('priority'), fn ($query) => $query->where('priority', $request->priority))
+            ->orderByRaw("CASE WHEN status = 'done' THEN 1 ELSE 0 END")
+            ->orderByRaw('due_date IS NULL')
+            ->orderBy('due_date')
+            ->latest();
     }
 
     /**

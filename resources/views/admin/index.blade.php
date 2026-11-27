@@ -1,7 +1,7 @@
 @extends('admin.layout.app')
 @section('main')
     <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-50 p-6 md:p-10">
-        <h1 class="text-3xl font-extrabold text-gray-900 mb-6 border-b pb-2">👋 اقدامات سریع </h1>
+        {{-- <h1 class="text-3xl font-extrabold text-gray-900 mb-6 border-b pb-2">👋 اقدامات سریع </h1> --}}
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
             <a href="{{ route('admin.blog.create') }}" class="block transform transition-transform duration-300 hover:scale-[1.03]">
                 <div class="bg-white rounded-xl shadow-xl p-6 md:p-8 border-r-4 border-purple-500 hover:bg-purple-50">
