@@ -34,7 +34,10 @@ jobs:
           curl -fsS http://127.0.0.1:5000/v2/
 
       - name: Set image name
-        run: echo "IMAGE=localhost:5000/${GITHUB_REPOSITORY#*/}" | tr '[:upper:]' '[:lower:]' >> "$GITHUB_ENV"
+        run: |
+          REPO_NAME=$(echo "${GITHUB_REPOSITORY#*/}" | tr '[:upper:]' '[:lower:]')
+          echo "IMAGE=localhost:5000/${REPO_NAME}" >> "$GITHUB_ENV"
+          echo "Image will be: localhost:5000/${REPO_NAME}"
 
       - name: Build and push
         uses: docker/build-push-action@v6
